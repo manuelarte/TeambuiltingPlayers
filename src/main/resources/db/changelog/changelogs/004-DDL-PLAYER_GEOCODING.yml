@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Manuel Doncel Martos
+      changes:
+        - createTable:
+            tableName: player_geocoding
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: player_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_player_geocoding_player
+                    referencedTableName: player
+                    referencedColumnNames: id
+              - column:
+                  name: lat
+                  type: decimal(5,3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lng
+                  type: decimal(5,3)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: Manuel Doncel Martos
+      comment: Create Hibernate Envers audit table for player_geocoding table
+      changes:
+        - createTable:
+            tableName: player_geocoding_aud
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: rev
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    foreignKeyName: player_geocoding_aud_revinfo_fk
+                    referencedTableName: revinfo
+                    referencedColumnNames: rev
+              - column:
+                  name: revtype
+                  type: TINYINT
+                  defaultValue: null
+              - column:
+                  name: player_id
+                  type: BIGINT
+                  defaultValue: null
+              - column:
+                  name: player_id_mod
+                  type: boolean
+                  defaultValue: null
+              - column:
+                  name: lat
+                  type: decimal(5,3)
+                  defaultValue: null
+              - column:
+                  name: lat_mod
+                  type: boolean
+                  defaultValue: null
+              - column:
+                  name: lng
+                  type: decimal(5,3)
+                  defaultValue: null
+              - column:
+                  name: lng_mod
+                  type: boolean
+                  defaultValue: null

@@ -1,0 +1,64 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Úbeda",
+               "short_name" : "Úbeda",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Jaén",
+               "short_name" : "Jaén",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Andalusia",
+               "short_name" : "AL",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Spain",
+               "short_name" : "ES",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "23400",
+               "short_name" : "23400",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "23400 Úbeda, Jaén, Spain",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 38.0293562,
+                  "lng" : -3.3581279
+               },
+               "southwest" : {
+                  "lat" : 38.0045262,
+                  "lng" : -3.3870422
+               }
+            },
+            "location" : {
+               "lat" : 38.0114236,
+               "lng" : -3.3712457
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 38.0293562,
+                  "lng" : -3.3581279
+               },
+               "southwest" : {
+                  "lat" : 38.0045262,
+                  "lng" : -3.3870422
+               }
+            }
+         },
+         "place_id" : "ChIJJXZOkHj0bg0RIttkL2LFLEc",
+         "types" : [ "locality", "political" ]
+      }
+   ],
+   "status" : "OK"
+}

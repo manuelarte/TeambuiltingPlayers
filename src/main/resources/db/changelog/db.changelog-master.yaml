@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - include:
+      file: changelogs/001-DDL-ENVERS.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelogs/002-DDL-PLAYER.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelogs/003-DDL-PLAYER_TO_TEAM.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelogs/004-DDL-PLAYER_GEOCODING.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changelogs/005-DDL-USER_DATA.yml
+      relativeToChangelogFile: true

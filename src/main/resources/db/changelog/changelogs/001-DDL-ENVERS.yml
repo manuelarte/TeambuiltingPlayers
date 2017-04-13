@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Manuel Doncel Martos
+      comment: Create Hibernate Envers table which will contain revision information
+      changes:
+        - createTable:
+            tableName: revinfo
+            columns:
+              - column:
+                  name: rev
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: revtstmp
+                  type: BIGINT
+                  defaultValue: null
+
+
+  - changeSet:
+      id: 2
+      author: Manuel Doncel Martos
+      comment: Create Hibernate Envers table which will contain revision changes
+      changes:
+        - createTable:
+            tableName: revchanges
+            columns:
+              - column:
+                  name: rev
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_revchanges_revinfo
+                    referencedTableName: revinfo
+                    referencedColumnNames: rev
+              - column:
+                 name: entityname
+                 type: VARCHAR(255)
+                 defaultValue: null

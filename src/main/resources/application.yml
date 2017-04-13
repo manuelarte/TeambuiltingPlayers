@@ -1,0 +1,92 @@
+info:
+  name: teambuiltingplayers
+  description: Team Builting Application, share your team to the rest of the world!
+
+server:
+  port: ${PORT:8081}
+
+---
+
+# Queue configuration
+messaging:
+  amqp:
+    player:
+      exchange:
+        name: TEAMBUILTING.E.PLAYER
+        durable: true
+        autodelete: false
+      queue:
+        name: TEAMBUILTING.Q.PLAYERS.PLAYER
+        binding: player.deleted
+        durable: true
+        autodelete: false
+
+
+google:
+  api:
+    key: ${GOOGLE_API_KEY:AIzaSyAJP4-9qXXF8h9bhp57IxGnlM9e6Tl5CHA}
+
+---
+
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
+      org.hibernate.envers.store_data_at_delete: true
+      org.hibernate.envers.global_with_modified_flag: true
+      org.hibernate.envers.track_entities_changed_in_revision: true
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:teambuiltingplayers}?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.jdbc.Driver
+  rabbitmq:
+      host: ${RABBITMQ_HOST}
+      virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
+      username: ${RABBITMQ_USERNAME}
+      password: ${RABBITMQ_PASSWORD}
+
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+      type.descriptor.sql: trace
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/teambuiltingplayers?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  rabbitmq:
+      host: localhost
+      username: guest
+      password: guest
+
+---
+
+endpoints:
+  enabled: true # Enable endpoints.
+  actuator.enabled: true # Enable the endpoint.
+
+---
+
+auth0:
+  domain: manuelarte.eu.auth0.com
+  issuer: https://manuelarte.eu.auth0.com/
+  clientId: XOBz4RdzWoMnpxAvXKtK9R8W9IODYKsl
+  clientSecret: tvKvKZd1tigVIAGztcOELwKIj0B0DswEbLdRG1PWu7NfZXk6VGbGkWdQjFpTZmWp
+  securedRoute: NOT_USED
+  base64EncodedSecret: true
+  authorityStrategy: ROLES
+  defaultAuth0ApiSecurityEnabled: false
+  signingAlgorithm: HS256
+  #signingAlgorithm: RS256
+  #publicKeyPath: certificate/cert.pem

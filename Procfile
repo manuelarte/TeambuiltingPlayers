@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -Dspring.profiles.active=production -jar build/libs/teambuiltingplayers-0.1.0-SNAPSHOT.jar

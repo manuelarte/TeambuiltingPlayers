@@ -1,0 +1,227 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		classpath "ru.d10xa:gradle-allure-plugin:0.5.5"
+	}
+}
+
+plugins {
+	id 'com.github.ben-manes.versions' version '0.13.0'
+	id 'nebula.contacts' version '3.0.1'
+	id 'nebula.facet' version '3.3.0'
+	id 'nebula.lint' version '6.3.0'
+	id 'org.sonarqube' version '2.2.1'
+	id 'org.springframework.boot' version '1.4.3.RELEASE'
+}
+
+ext {
+    javaVersion = '1.8'
+    snippetsDir = file('build/generated-snippets')
+}
+
+// Define the classes that should not be analysed for code coverage both in Jacoco and Sonar
+def excludedClasses() {
+	return [
+			'**/org/manuel/teambuilting/players/controllers/*.*',
+			'**/org/manuel/teambuilting/players/config/*.*',
+			'**/org/manuel/teambuilting/players/messages/*.*',
+			'**/org/manuel/teambuilting/players/listeners/*.*',
+	]
+}
+
+group 'org.manuel.teambuilting'
+version '0.1.0-SNAPSHOT'
+
+apply plugin: 'build-announcements'
+apply plugin: 'build-dashboard'
+apply plugin: 'idea'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'jdepend'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'org.sonarqube'
+apply plugin: 'project-report'
+apply plugin: 'ru.d10xa.allure'
+
+pmd {
+	ignoreFailures = true
+}
+
+	findbugs {
+	ignoreFailures = true
+	effort = 'max'
+}
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}
+
+jdepend {
+	ignoreFailures = false
+}
+
+tasks.withType(JDepend) {
+	reports {
+		text.enabled = false
+		xml.enabled = true
+	}
+}
+
+gradleLint {
+    alwaysRun = false
+    criticalRules += 'archaic-wrapper'
+    criticalRules += 'unused-dependency'
+    rules += 'duplicate-dependency-class'
+    rules += 'unused-exclude-by-dep'
+}
+
+jar {
+	baseName = "${microserviceName}"
+	version = project.version
+}
+
+contacts {
+	'manuel.doncel.martos@gmail.com' {
+		roles 'developer'
+	}
+}
+
+facets {
+	integrationTest {
+		parentSourceSet = 'main'
+		testTaskName = 'integrationTest'
+		includeInCheckLifecycle = false
+	}
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Jacoco configuration, include only the classes that involve logic
+jacocoTestReport {
+    reports {
+        html {
+            enabled true
+        }
+    }
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: excludedClasses())
+        })
+    }
+}
+
+configurations {
+	agent
+	all {
+		exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'
+	}
+}
+
+repositories {
+	mavenLocal()
+	maven { url 'https://repo.spring.io/milestone' }
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile "org.springframework.amqp:spring-rabbit"
+	compile 'org.springframework.boot:spring-boot-actuator-docs'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-web-services'
+	compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.0.0.M1'
+	compile 'org.springframework.data:spring-data-commons:1.12.2.RELEASE'
+	compile('org.springframework.data:spring-data-jpa:1.10.2.RELEASE') {
+		exclude module: 'aspectjrt' // because of duplicate classes in aspectjweaver, which should be used
+	}
+
+	compile "org.springframework:spring-aspects:5.0.0.M4"
+	compile "org.springframework.boot:spring-boot-starter-amqp"
+	compile 'com.auth0:auth0-spring-security-api:0.3.3'
+	
+	// Persistence
+    compile 'mysql:mysql-connector-java:5.1.35'
+	compile 'org.hibernate:hibernate-validator:5.2.4.Final'
+	compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    compile 'org.hibernate:hibernate-envers:5.2.1.Final'
+    compile 'org.hibernate:hibernate-core:5.2.1.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.2.1.Final'
+    compile 'com.zaxxer:HikariCP:2.4.7'
+    compile 'org.liquibase:liquibase-core:3.5.1'
+	
+	compile 'javax.inject:javax.inject:1'
+	compile group: 'javax.transaction', name: 'jta', version: '1.1'
+    compile 'javax.transaction:javax.transaction-api:1.2'
+
+
+	compile 'com.google.maps:google-maps-services:0.1.17'
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.1"
+    compile "com.jayway.jsonpath:json-path:2.0.0"
+
+	gradleLint.ignore('unused-dependency') {
+		compileOnly 'org.projectlombok:lombok'
+	}
+
+	compile 'io.springfox:springfox-core:2.6.1'
+	compile 'io.springfox:springfox-spi:2.6.1'
+	compile 'io.springfox:springfox-spring-web:2.6.1'
+	compile 'io.springfox:springfox-swagger2:2.6.1'
+	compile 'io.springfox:springfox-swagger-ui:2.6.1'
+
+	runtime 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+	testCompile 'org.hamcrest:hamcrest-core:1.3'
+	testCompile 'org.mockito:mockito-core'
+
+	integrationTestCompile 'org.springframework.boot:spring-boot-starter-test'
+	integrationTestCompile group: 'junit', name: 'junit', version: '4.12'
+	integrationTestCompile 'org.hamcrest:hamcrest-core:1.3'
+	integrationTestCompile 'org.springframework.amqp:spring-rabbit-test:1.6.6.RELEASE'
+	
+	integrationTestRuntime "org.hsqldb:hsqldb:2.3.2"
+	
+}
+
+bootRun {
+    systemProperties 'user.timezone': 'UTC'
+
+    if (project.hasProperty('jvmArgs')) {
+        jvmArgs = (project.jvmArgs.split('\\s+') as java.util.List)
+    }
+}
+
+clean {
+    delete 'log'
+    delete 'bin'
+}
+
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { selection ->
+            boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'pfd'].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject('Release candidate')
+            }
+        }
+    }
+}
+
+task stage {
+    dependsOn build
+}
