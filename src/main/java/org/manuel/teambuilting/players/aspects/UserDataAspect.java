@@ -2,7 +2,7 @@ package org.manuel.teambuilting.players.aspects;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
-import lombok.AllArgsConstructor;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -14,6 +14,8 @@ import org.manuel.teambuilting.players.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
 
 /**
  * @author manuel.doncel.martos
@@ -30,7 +32,7 @@ public class UserDataAspect {
     @AfterReturning(
             pointcut="@annotation(org.manuel.teambuilting.players.aspects.UserDataSave)",
             returning="retVal")
-    public void saveEntityToUserData(final JoinPoint call, Object retVal) {
+    public void saveEntityToUserData(final JoinPoint call, Player retVal) {
 	    if (retVal instanceof Player) {
             final Player player = (Player) call.getArgs()[0];
             final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
