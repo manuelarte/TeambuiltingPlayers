@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.players.services.command;
+package org.manuel.teambuilting.core.services.command;
 
 /**
  * @author manuel.doncel.martos

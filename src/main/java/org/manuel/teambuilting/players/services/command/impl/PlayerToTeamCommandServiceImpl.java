@@ -3,8 +3,9 @@
  */
 package org.manuel.teambuilting.players.services.command.impl;
 
-import org.manuel.teambuilting.players.exceptions.ErrorCode;
-import org.manuel.teambuilting.players.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.services.command.AbstractCommandService;
+import org.manuel.teambuilting.exceptions.ErrorCode;
+import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
 import org.manuel.teambuilting.players.services.command.PlayerToTeamCommandService;

@@ -1,6 +1,7 @@
 package org.manuel.teambuilting.players.services.query.impl;
 
 import com.auth0.authentication.result.UserProfile;
+import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.messages.PlayerVisitedEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;

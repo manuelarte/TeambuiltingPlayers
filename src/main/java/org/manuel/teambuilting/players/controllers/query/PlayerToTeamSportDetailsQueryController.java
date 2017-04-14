@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.players.controllers.query;
 
-import org.manuel.teambuilting.players.exceptions.ErrorCode;
-import org.manuel.teambuilting.players.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.exceptions.ErrorCode;
+import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.players.services.query.PlayerToTeamSportDetailsQueryService;
 import org.springframework.http.ResponseEntity;

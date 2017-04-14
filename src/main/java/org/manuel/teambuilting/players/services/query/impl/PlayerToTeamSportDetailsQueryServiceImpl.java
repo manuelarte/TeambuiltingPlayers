@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamSportDetailsRepository;
 import org.manuel.teambuilting.players.services.query.PlayerToTeamSportDetailsQueryService;

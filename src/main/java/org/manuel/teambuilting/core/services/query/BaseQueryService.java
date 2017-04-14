@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.players.services.query;
+package org.manuel.teambuilting.core.services.query;
 
 import java.util.Optional;
 

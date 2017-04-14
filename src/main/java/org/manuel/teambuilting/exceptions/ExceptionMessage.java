@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.players.exceptions;
+package org.manuel.teambuilting.exceptions;
 
 import org.springframework.http.HttpStatus;
 

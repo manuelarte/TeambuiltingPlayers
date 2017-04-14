@@ -1,6 +1,5 @@
-package org.manuel.teambuilting.players.services.query.impl;
+package org.manuel.teambuilting.core.services.query;
 
-import org.manuel.teambuilting.players.services.query.BaseQueryService;
 import org.springframework.data.repository.CrudRepository;
 
 import java.io.Serializable;

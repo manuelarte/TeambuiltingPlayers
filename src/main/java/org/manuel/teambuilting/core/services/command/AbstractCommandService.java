@@ -1,8 +1,7 @@
-package org.manuel.teambuilting.players.services.command.impl;
+package org.manuel.teambuilting.core.services.command;
 
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.aspects.UserDataSave;
-import org.manuel.teambuilting.players.services.command.BaseCommandService;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;

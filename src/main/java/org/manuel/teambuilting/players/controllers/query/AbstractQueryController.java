@@ -1,6 +1,6 @@
 package org.manuel.teambuilting.players.controllers.query;
 
-import static org.manuel.teambuilting.players.exceptions.ErrorCode.ID_NOT_FOUND;
+import static org.manuel.teambuilting.exceptions.ErrorCode.ID_NOT_FOUND;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.manuel.teambuilting.players.exceptions.ValidationRuntimeException;
-import org.manuel.teambuilting.players.services.query.BaseQueryService;
+import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.services.query.BaseQueryService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;

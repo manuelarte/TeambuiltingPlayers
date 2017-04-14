@@ -1,6 +1,7 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
 import com.auth0.authentication.result.UserProfile;
+import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
 import org.manuel.teambuilting.players.aspects.UserDataDeletePlayer;
 import org.manuel.teambuilting.players.model.entities.Player;

@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.players.services.query;
 
+import org.manuel.teambuilting.core.services.query.BaseQueryService;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

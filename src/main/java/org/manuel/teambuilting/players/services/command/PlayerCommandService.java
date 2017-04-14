@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.players.services.command;
 
+import org.manuel.teambuilting.core.services.command.BaseCommandService;
 import org.manuel.teambuilting.players.model.entities.Player;
 
 import java.math.BigInteger;

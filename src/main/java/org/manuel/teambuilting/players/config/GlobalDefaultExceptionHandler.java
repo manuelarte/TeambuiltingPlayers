@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.players.config;
 
-import org.manuel.teambuilting.players.exceptions.ExceptionMessage;
-import org.manuel.teambuilting.players.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.exceptions.ExceptionMessage;
+import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
