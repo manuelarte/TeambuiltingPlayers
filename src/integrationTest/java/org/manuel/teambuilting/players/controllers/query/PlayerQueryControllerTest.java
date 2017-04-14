@@ -15,10 +15,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.inject.Inject;
-import java.util.UUID;
+import java.util.Random;
 
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -49,7 +53,7 @@ public class PlayerQueryControllerTest {
 		final Player expected = Player.builder().name("name").build();
 		playerRepository.save(expected);
 
-		final String contentAsString = mvc.perform(get("/core/players/" + expected.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
+		final String contentAsString = mvc.perform(get("/players/" + expected.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
 			.getContentAsString();
 		final Player actual = mapper.readValue(contentAsString, Player.class);
 		assertEquals(expected, actual);
@@ -57,11 +61,24 @@ public class PlayerQueryControllerTest {
 
 	@Test
 	public void findOnePlayerThatDoesNotExist() throws Exception {
-		final String id = UUID.randomUUID().toString();
+		final int id = new Random().nextInt();
 		final String contentAsString = mvc.perform(get("/players/" + id, "")).andExpect(status().is4xxClientError()).andReturn().getResponse()
 			.getContentAsString();
 
 		final ExceptionMessage actual = mapper.readValue(contentAsString, ExceptionMessage.class);
 		assertEquals(ErrorCode.ID_NOT_FOUND.getErrorCode(), actual.getErrorCode());
+	}
+
+	@Test
+	public void findPlayersByName() throws Exception {
+		final Player expected = Player.builder().name("name").build();
+		final Player expected2 = Player.builder().name("name").build();
+		playerRepository.save(expected);
+		playerRepository.save(expected2);
+
+		mvc.perform(get("/players?name=name", ""))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.content", is(not(empty())))).andReturn().getResponse().getContentAsString();
+		;
 	}
 }

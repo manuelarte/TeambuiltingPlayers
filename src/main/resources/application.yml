@@ -45,16 +45,10 @@ spring:
     password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
-      host: ${RABBITMQ_HOST}
+      host: ${RABBITMQ_HOST:localhost}
       virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
-      username: ${RABBITMQ_USERNAME}
-      password: ${RABBITMQ_PASSWORD}
-
-logging:
-  level:
-    org.hibernate:
-      SQL: debug
-      type.descriptor.sql: trace
+      username: ${RABBITMQ_USERNAME:guest}
+      password: ${RABBITMQ_PASSWORD:guest}
 
 ---
 

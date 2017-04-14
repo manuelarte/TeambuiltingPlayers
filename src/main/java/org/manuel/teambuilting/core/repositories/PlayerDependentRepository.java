@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.players.repositories;
+package org.manuel.teambuilting.core.repositories;
 
 import java.math.BigInteger;
 import java.util.Collection;

@@ -5,9 +5,7 @@ import org.junit.runner.RunWith;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
-import org.manuel.teambuilting.players.model.entities.PlayerToTeamSportDetails;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
-import org.manuel.teambuilting.players.repositories.PlayerToTeamSportDetailsRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.test.RabbitListenerTest;
 import org.springframework.amqp.rabbit.test.RabbitListenerTestHarness;
@@ -40,9 +38,6 @@ public class PlayerListenerTest {
 	private PlayerToTeamRepository playerToTeamRepository;
 
 	@Inject
-	private PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository;
-
-	@Inject
 	private RabbitTemplate rabbitTemplate;
 
 	@Inject
@@ -52,7 +47,6 @@ public class PlayerListenerTest {
 	public void deletePlayerTest() throws InterruptedException {
 		final Player player = Player.builder().id(new BigInteger("1")).build();
 		savePlayerToTeam(player);
-		savePlayerToTeamSportDetails(player);
 
 		final PlayerDeletedEvent event = PlayerDeletedEvent.builder().playerId(player.getId()).date(new Date()).userId("userId").build();
 
@@ -63,17 +57,11 @@ public class PlayerListenerTest {
 		assertEquals(1, data.getArguments().length);
 		assertEquals(event, data.getArguments()[0]);
 		assertEquals(0, playerToTeamRepository.findAll().size());
-		assertEquals(0, playerToTeamSportDetailsRepository.findAll().size());
 	}
 
 	private void savePlayerToTeam(final Player player) {
 		final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).toDate(new Date()).build();
 		playerToTeamRepository.save(playerToTeam);
-	}
-
-	private void savePlayerToTeamSportDetails(final Player player) {
-		final PlayerToTeamSportDetails playerToTeamSportDetails = PlayerToTeamSportDetails.builder().playerId(player.getId()).sport("Football").mainPosition("GK").build();
-		playerToTeamSportDetailsRepository.save(playerToTeamSportDetails);
 	}
 
 }

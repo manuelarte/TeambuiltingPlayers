@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
 import org.manuel.teambuilting.players.repositories.PlayerGeocodingRepository;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
-import org.manuel.teambuilting.players.repositories.PlayerToTeamSportDetailsRepository;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
@@ -30,13 +29,11 @@ public class PlayerListener {
     public static final String LISTENER_ID = "PlayerListenerId";
 
     private final PlayerToTeamRepository playerToTeamRepository;
-    private final PlayerToTeamSportDetailsRepository playerToTeamSportDetailsRepository;
     private final PlayerGeocodingRepository playerGeocodingRepository;
 
     @RabbitHandler
     public void handle(final PlayerDeletedEvent event) {
         playerToTeamRepository.delete(playerToTeamRepository.findByPlayerId(event.getPlayerId()));
-        playerToTeamSportDetailsRepository.delete(playerToTeamSportDetailsRepository.findByPlayerId(event.getPlayerId()));
         playerGeocodingRepository.delete(playerGeocodingRepository.findByPlayerId(event.getPlayerId()));
     }
 

@@ -51,7 +51,7 @@ public class PlayerToTeamCommandServiceImplTest {
 	@Test(expected = ValidationRuntimeException.class)
 	public void testSaveAnotherEntryForTheSameTeamAndInsideTimeFrame() {
 		final Player player = playerRepository.save(new Player("name", "nickname",
-			'M', "address", "imageLink"));
+			'M', "address", "http:\\\\imageLink"));
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
 
@@ -87,7 +87,7 @@ public class PlayerToTeamCommandServiceImplTest {
 	@Test
 	public void testUpdateEntityWithSameValues() {
 		final Player player = playerRepository.save(new Player("name", "nickname",
-				'M', "address", "imageLink"));
+				'M', "address", "http:\\\\imageLink"));
 		final String teamId = "teamId";
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
@@ -101,7 +101,7 @@ public class PlayerToTeamCommandServiceImplTest {
 	@Test
 	public void testUpdateEntityChangingFromDate() {
 		final Player player = playerRepository.save(new Player("name", "nickname",
-				'M', "address", "imageLink"));
+				'M', "address", "http:\\\\imageLink"));
 		final String teamId = "teamId";
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
