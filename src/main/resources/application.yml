@@ -21,6 +21,7 @@ messaging:
         durable: true
         autodelete: false
 
+---
 
 google:
   api:

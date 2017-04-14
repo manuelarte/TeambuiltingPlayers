@@ -12,6 +12,7 @@ import org.springframework.amqp.rabbit.test.RabbitListenerTestHarness;
 import org.springframework.amqp.rabbit.test.RabbitListenerTestHarness.InvocationData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
@@ -29,6 +30,7 @@ import static junit.framework.TestCase.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @RabbitListenerTest(capture = true)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class PlayerListenerTest {
 
 	@Value("${messaging.amqp.player.exchange.name}")
@@ -52,7 +54,7 @@ public class PlayerListenerTest {
 
 		rabbitTemplate.convertAndSend(playerExchange, PlayerDeletedEvent.ROUTING_KEY, event);
 
-		InvocationData data = harness.getNextInvocationDataFor(PlayerListener.LISTENER_ID, 5, TimeUnit.SECONDS);
+		final InvocationData data = harness.getNextInvocationDataFor(PlayerListener.LISTENER_ID, 5, TimeUnit.SECONDS);
 		assertNotNull(data);
 		assertEquals(1, data.getArguments().length);
 		assertEquals(event, data.getArguments()[0]);

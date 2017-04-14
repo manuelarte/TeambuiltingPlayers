@@ -69,7 +69,7 @@ public class PlayerToTeamCommandServiceImplTest {
 	@Test(expected = ValidationRuntimeException.class)
 	public void testPreviousToDateIsNullSaveAnotherEntryForTheSameTeamAndInsideTimeFrame() {
 		final Player player = playerRepository.save(new Player("name", "nickname",
-			'M', "address", "imageLink"));
+			'M', "address", "http:\\\\imageLink"));
 		final Date teamToDate = null;
 		final Date teamFromDate = changeDate(new Date(), -10, Calendar.YEAR);
 
