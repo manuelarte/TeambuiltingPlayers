@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.players.controllers.query;
 
+import org.manuel.teambuilting.core.controllers.query.AbstractQueryController;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.services.query.PlayerQueryService;
 import org.springframework.data.domain.Page;

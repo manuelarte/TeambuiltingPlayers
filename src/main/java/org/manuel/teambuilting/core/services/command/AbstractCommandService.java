@@ -37,11 +37,11 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 		afterDeleted(id);
 	}
 
-	void beforeSave(final Entity entity) {}
+	protected void beforeSave(final Entity entity) {}
 
-	void afterSaved(final Entity savedEntity) {}
+	protected void afterSaved(final Entity savedEntity) {}
 
-	void beforeDelete(final ID id) {}
+	protected void beforeDelete(final ID id) {}
 
-	void afterDeleted(final ID id) {}
+	protected void afterDeleted(final ID id) {}
 }

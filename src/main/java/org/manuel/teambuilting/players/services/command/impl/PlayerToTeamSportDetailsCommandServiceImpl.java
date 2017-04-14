@@ -25,7 +25,7 @@ class PlayerToTeamSportDetailsCommandServiceImpl extends AbstractCommandService<
 	}
 
 	@Override
-	void beforeSave(final PlayerToTeamSportDetails beforeSaveEntity) {
+	protected void beforeSave(final PlayerToTeamSportDetails beforeSaveEntity) {
 		final Optional<PlayerToTeamSportDetails> previousEntity = Optional.ofNullable(repository.findByPlayerIdAndSportIgnoringCase(beforeSaveEntity.getPlayerId(), beforeSaveEntity.getSport()));
 		if (previousEntity.isPresent() && !previousEntity.get().getId().equals(beforeSaveEntity.getId())) {
 			throw new ValidationRuntimeException(SPORT_DETAIL_DUPLICATED, beforeSaveEntity.getSport());

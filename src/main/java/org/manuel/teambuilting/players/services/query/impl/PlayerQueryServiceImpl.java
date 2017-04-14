@@ -43,7 +43,7 @@ class PlayerQueryServiceImpl extends AbstractQueryService<Player, BigInteger, Pl
 	}
 
 	@Override
-	void postFindOne(final Optional<Player> player) {
+	protected void postFindOne(final Optional<Player> player) {
 		Assert.notNull(player);
 		if (player.isPresent()) {
 			sendPlayerVisitedMessage(player.get());

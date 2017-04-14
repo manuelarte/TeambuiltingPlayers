@@ -34,7 +34,7 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 
 	@Override
     @UserDataDeletePlayer
-	void afterDeleted(final BigInteger playerId) {
+	protected void afterDeleted(final BigInteger playerId) {
 		sendPlayerDeletedEvent(playerId);
 	}
 

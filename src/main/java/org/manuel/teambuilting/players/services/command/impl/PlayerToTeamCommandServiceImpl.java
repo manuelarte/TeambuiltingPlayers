@@ -33,7 +33,7 @@ class PlayerToTeamCommandServiceImpl extends AbstractCommandService<PlayerToTeam
 	}
 
 	@Override
-	void beforeSave(final PlayerToTeam playerToTeam) {
+	protected void beforeSave(final PlayerToTeam playerToTeam) {
 		final Collection<PlayerToTeam> historyOfThePlayerInTheTeamOverlapped = repository
 			.findByPlayerIdAndTeamId(playerToTeam.getPlayerId(), playerToTeam.getTeamId())
 				.stream().filter(overlapped(playerToTeam)).collect(Collectors.toList());

@@ -25,6 +25,7 @@ public abstract class AbstractQueryService<Entity, ID extends Serializable, Repo
 		return retrieved;
 	}
 
-	void postFindOne(final Optional<Entity> entity) {}
+
+	protected void postFindOne(final Optional<Entity> entity) {}
 
 }
