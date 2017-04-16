@@ -1,4 +1,4 @@
-package org.manuel.teambuilting.players.services.query;
+package org.manuel.teambuilting.core.controllers.query;
 
 import java.math.BigInteger;
 import java.util.Collection;

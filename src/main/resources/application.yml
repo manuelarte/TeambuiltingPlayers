@@ -3,7 +3,7 @@ info:
   description: Team Builting Application, share your team to the rest of the world!
 
 server:
-  port: ${PORT:8081}
+  port: ${PORT:8091}
 
 ---
 
