@@ -9,10 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.envers.Audited;
+import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.manuel.teambuilting.players.model.TimeSlice;
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
@@ -29,7 +32,7 @@ import java.util.Date;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Audited
-public class PlayerToTeam implements TimeSlice {
+public class PlayerToTeam implements PlayerDependentEntity, TimeSlice {
 
 	@Id
 	@GeneratedValue

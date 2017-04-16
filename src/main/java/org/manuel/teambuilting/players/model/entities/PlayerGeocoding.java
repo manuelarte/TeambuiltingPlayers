@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.envers.Audited;
+import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.Entity;
@@ -27,7 +28,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @Entity
 @Audited
-public class PlayerGeocoding {
+public class PlayerGeocoding implements PlayerDependentEntity {
 
     @Id
     @GeneratedValue

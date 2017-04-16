@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
+import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ import java.math.BigInteger;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserData {
+public class UserData implements PlayerDependentEntity {
 
     @Id
     private String userId;
