@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.math.BigInteger;
-import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @RestController
@@ -45,9 +45,9 @@ public class PlayerToTeamController {
 		playerToTeamCommandService.delete(playerToTeamId);
 	}
 
-	@RequestMapping(path = "/teams/{teamId}/", method = RequestMethod.GET)
-	public Set<Player> getPlayersForTeam(@PathVariable("teamId") final String teamId,
-										 @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate date) {
+	@RequestMapping(path = "/teams/{teamId}", method = RequestMethod.GET)
+	public Set<Player> getPlayersForTeam(@PathVariable final String teamId,
+										 @RequestParam(value = "date", required = false, defaultValue = "1900-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") final Date date) {
 		Assert.hasLength(teamId);
 		return playerToTeamQueryService.getPlayersFor(teamId, date);
 	}

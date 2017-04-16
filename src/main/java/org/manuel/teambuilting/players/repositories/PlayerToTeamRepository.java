@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -27,7 +27,7 @@ public interface PlayerToTeamRepository extends PlayerDependentRepository<Player
 	 * @param teamId
 	 * @return
 	 */
-	Collection<PlayerToTeam> findByToDateAfterOrToDateIsNullAndTeamId(LocalDate date, String teamId);
+	Collection<PlayerToTeam> findByToDateAfterOrToDateIsNullAndTeamId(Date date, String teamId);
 
 	Collection<PlayerToTeam> findByPlayerIdAndTeamId(BigInteger playerId, String teamId);
 

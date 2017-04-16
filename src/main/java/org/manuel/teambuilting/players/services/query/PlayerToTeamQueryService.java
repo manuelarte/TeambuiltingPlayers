@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.math.BigInteger;
-import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,9 +34,9 @@ public class PlayerToTeamQueryService implements PlayerDependentQueryService<Pla
 		this.playerRepository = playerRepository;
 	}
 
-	public Set<Player> getPlayersFor(final String teamId, final LocalDate time) {
+	public Set<Player> getPlayersFor(final String teamId, final Date date) {
 		final Collection<PlayerToTeam> playersForTeam = playerToTeamRepository
-				.findByToDateAfterOrToDateIsNullAndTeamId(time, teamId);
+				.findByToDateAfterOrToDateIsNullAndTeamId(date, teamId);
 		return playersForTeam.stream()
 				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
 	}
