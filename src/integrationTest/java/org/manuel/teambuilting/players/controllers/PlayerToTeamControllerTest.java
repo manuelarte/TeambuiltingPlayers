@@ -10,6 +10,7 @@ import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PlayerToTeamControllerTest {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -51,7 +53,21 @@ public class PlayerToTeamControllerTest {
     }
 
     @Test
-    public void findOnePlayerToTeam() throws Exception {
+    public void findPlayerToTeamById() throws Exception {
+        final Player player = Player.builder().name("name").build();
+        playerRepository.save(player);
+        final PlayerToTeam expected = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
+        playerToTeamRepository.save(expected);
+
+        final String contentAsString = mvc.perform(get("/playersToTeams/" + expected.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
+                .getContentAsString();
+        final PlayerToTeam actual = mapper.readValue(contentAsString, PlayerToTeam.class);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findPlayerToTeamForPlayerId() throws Exception {
         final Player player = Player.builder().name("name").build();
         playerRepository.save(player);
         final PlayerToTeam expected = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();

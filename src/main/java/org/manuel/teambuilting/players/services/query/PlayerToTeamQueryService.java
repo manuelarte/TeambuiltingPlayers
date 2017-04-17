@@ -4,6 +4,7 @@
 package org.manuel.teambuilting.players.services.query;
 
 import org.manuel.teambuilting.core.controllers.query.PlayerDependentQueryService;
+import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
@@ -22,20 +23,19 @@ import java.util.stream.Collectors;
  *
  */
 @Service
-public class PlayerToTeamQueryService implements PlayerDependentQueryService<PlayerToTeam, BigInteger> {
+public class PlayerToTeamQueryService extends AbstractQueryService<PlayerToTeam, BigInteger, PlayerToTeamRepository> implements PlayerDependentQueryService<PlayerToTeam, BigInteger> {
 
-	private final PlayerToTeamRepository playerToTeamRepository;
 	private final PlayerRepository playerRepository;
 
 	@Inject
 	public PlayerToTeamQueryService(final PlayerToTeamRepository playerToTeamRepository,
 			final PlayerRepository playerRepository) {
-		this.playerToTeamRepository = playerToTeamRepository;
+		super(playerToTeamRepository);
 		this.playerRepository = playerRepository;
 	}
 
 	public Set<Player> getPlayersFor(final String teamId, final Date date) {
-		final Collection<PlayerToTeam> playersForTeam = playerToTeamRepository
+		final Collection<PlayerToTeam> playersForTeam = repository
 				.findByToDateAfterOrToDateIsNullAndTeamId(date, teamId);
 		return playersForTeam.stream()
 				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
@@ -43,6 +43,6 @@ public class PlayerToTeamQueryService implements PlayerDependentQueryService<Pla
 
 	@Override
 	public Collection<PlayerToTeam> findByPlayerId(final BigInteger playerId) {
-		return playerToTeamRepository.findByPlayerId(playerId);
+		return repository.findByPlayerId(playerId);
 	}
 }

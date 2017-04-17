@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.players.controllers;
 
+import org.manuel.teambuilting.core.controllers.query.AbstractQueryController;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.services.command.PlayerToTeamCommandService;
@@ -17,21 +18,20 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/playersToTeams")
-public class PlayerToTeamController {
+public class PlayerToTeamController extends AbstractQueryController<PlayerToTeam, BigInteger, PlayerToTeamQueryService> {
 
-	private final PlayerToTeamQueryService playerToTeamQueryService;
 	private final PlayerToTeamCommandService playerToTeamCommandService;
 
 	@Inject
 	public PlayerToTeamController(final PlayerToTeamQueryService playerToTeamQueryService, final PlayerToTeamCommandService playerToTeamCommandService) {
-		this.playerToTeamQueryService = playerToTeamQueryService;
+		super(playerToTeamQueryService);
 		this.playerToTeamCommandService = playerToTeamCommandService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public Collection<PlayerToTeam> findPlayerHistory(@RequestParam(value = "playerId", defaultValue = "") final BigInteger playerId) {
 		Assert.notNull(playerId);
-		return playerToTeamQueryService.findByPlayerId(playerId);
+		return queryService.findByPlayerId(playerId);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces = "application/json")
@@ -49,7 +49,7 @@ public class PlayerToTeamController {
 	public Set<Player> getPlayersForTeam(@PathVariable final String teamId,
 										 @RequestParam(value = "date", required = false, defaultValue = "1900-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") final Date date) {
 		Assert.hasLength(teamId);
-		return playerToTeamQueryService.getPlayersFor(teamId, date);
+		return queryService.getPlayersFor(teamId, date);
 	}
 
 }
