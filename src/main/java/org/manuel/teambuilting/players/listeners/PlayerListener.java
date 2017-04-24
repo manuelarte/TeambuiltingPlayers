@@ -2,11 +2,17 @@ package org.manuel.teambuilting.players.listeners;
 
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
+import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
+import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerGeocodingRepository;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
+import org.manuel.teambuilting.players.services.geocoding.PlayerGeocodingService;
+import org.manuel.teambuilting.players.services.query.PlayerQueryService;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 import static org.manuel.teambuilting.players.listeners.PlayerListener.LISTENER_ID;
 
@@ -28,6 +34,8 @@ public class PlayerListener {
 
     public static final String LISTENER_ID = "PlayerListenerId";
 
+    private final PlayerGeocodingService playerGeocodingService;
+    private final PlayerQueryService playerQueryService;
     private final PlayerToTeamRepository playerToTeamRepository;
     private final PlayerGeocodingRepository playerGeocodingRepository;
 
@@ -35,6 +43,14 @@ public class PlayerListener {
     public void handle(final PlayerDeletedEvent event) {
         playerToTeamRepository.delete(playerToTeamRepository.findByPlayerId(event.getPlayerId()));
         playerGeocodingRepository.delete(playerGeocodingRepository.findByPlayerId(event.getPlayerId()));
+    }
+
+    @RabbitHandler
+    public void handle(final PlayerRegisteredEvent event) {
+        final Optional<Player> player = playerQueryService.findOne(event.getPlayerId());
+        if (player.isPresent() && Optional.ofNullable(player.get().getBornAddress()).isPresent()) {
+            playerGeocodingService.asyncReq(player.get());
+        }
     }
 
 }

@@ -19,7 +19,7 @@ messaging:
         autodelete: true
       queue:
         name: TEST.TEAMBUILTING.Q.PLAYERS.PLAYER
-        binding: player.deleted
+        binding: player.cud.#
         durable: false
         autodelete: true
 

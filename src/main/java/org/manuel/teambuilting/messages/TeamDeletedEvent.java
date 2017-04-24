@@ -1,13 +1,11 @@
 package org.manuel.teambuilting.messages;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.Date;
-
-import javax.validation.constraints.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * @author Manuel Doncel Martos
@@ -17,7 +15,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class TeamDeletedEvent {
 
-    public static final String ROUTING_KEY = "team.deleted";
+    public static final String ROUTING_KEY = "team.cud.deleted";
 
     @NotNull
     private final String teamId;

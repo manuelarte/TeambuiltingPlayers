@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class PlayerRegisteredEvent {
 
-    public static final String ROUTING_KEY = "player.registered";
+    public static final String ROUTING_KEY = "player.cud.registered";
 
     @NotNull
     private final BigInteger playerId;

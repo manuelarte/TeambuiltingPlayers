@@ -20,7 +20,7 @@ import java.util.Date;
 @Builder
 public class PlayerDeletedEvent {
 
-    public static final String ROUTING_KEY = "player.deleted";
+    public static final String ROUTING_KEY = "player.cud.deleted";
 
     @NotNull
     private final BigInteger playerId;
