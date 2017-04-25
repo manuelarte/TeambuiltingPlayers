@@ -4,7 +4,6 @@ import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.manuel.teambuilting.players.config.Auth0Client;
@@ -43,7 +42,7 @@ public class UserDataAspect {
         }
 	}
 
-	@After(value = "@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer)")
+	@AfterReturning(value = "@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer)")
 	public void deletePlayerFromUserData(final JoinPoint call) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
