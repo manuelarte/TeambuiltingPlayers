@@ -1,5 +1,12 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,13 +23,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 
 /**
  * Test Suit to check that it is not possible to store wrong player history
@@ -32,6 +35,7 @@ import java.util.Date;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PlayerToTeamCommandServiceImplTest {
 
 	@Inject
