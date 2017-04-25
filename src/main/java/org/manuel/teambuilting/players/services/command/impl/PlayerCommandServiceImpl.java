@@ -1,9 +1,14 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
 import com.auth0.authentication.result.UserProfile;
+
+import java.math.BigInteger;
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
-import org.manuel.teambuilting.players.aspects.UserDataDeletePlayer;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
@@ -11,10 +16,6 @@ import org.manuel.teambuilting.players.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
-import java.math.BigInteger;
-import java.util.Date;
 
 @Service
 class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger, PlayerRepository> implements PlayerCommandService {
@@ -33,7 +34,6 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 	}
 
 	@Override
-    @UserDataDeletePlayer
 	protected void afterDeleted(final BigInteger playerId) {
 		sendPlayerDeletedEvent(playerId);
 	}

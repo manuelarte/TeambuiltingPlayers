@@ -1,12 +1,14 @@
 package org.manuel.teambuilting.core.services.command;
 
-import lombok.AllArgsConstructor;
+import java.io.Serializable;
+
+import org.manuel.teambuilting.players.aspects.UserDataDeletePlayer;
 import org.manuel.teambuilting.players.aspects.UserDataSave;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
 
 /**
  * @author manuel.doncel.martos
@@ -29,6 +31,7 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 	}
 
 	@Override
+	@UserDataDeletePlayer
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	public void delete(final ID id) {
 		Assert.notNull(id);
