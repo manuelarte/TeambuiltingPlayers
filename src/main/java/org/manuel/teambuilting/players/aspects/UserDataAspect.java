@@ -6,6 +6,7 @@ import com.auth0.spring.security.api.Auth0JWTToken;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.manuel.teambuilting.exceptions.UserNotAllowedToModifyEntityException;
 import org.manuel.teambuilting.players.config.Auth0Client;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
@@ -29,7 +30,7 @@ public class UserDataAspect {
 	private final Auth0Client auth0Client;
 
     @AfterReturning(
-            pointcut="@annotation(org.manuel.teambuilting.players.aspects.UserDataSave)",
+            pointcut = "@annotation(org.manuel.teambuilting.players.aspects.UserDataSave)",
             returning="retVal")
     public void saveEntityToUserData(final JoinPoint call, Player retVal) {
 	    if (retVal instanceof Player) {
@@ -42,13 +43,17 @@ public class UserDataAspect {
         }
 	}
 
-	@AfterReturning(value = "@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer)")
-	public void deletePlayerFromUserData(final JoinPoint call) {
-		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	@AfterReturning("@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer) && args(player)")
+	public void deletePlayerFromUserData(final JoinPoint call, final Player player) throws Throwable {
+    	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
 		final UserData userData = userService.getOrCreateUserData(user.getId());
-		userData.setPlayerId(null);
-		userService.update(userData);
+		if (userData.getPlayerId() != null && userData.getPlayerId().equals(player.getId())) {
+			userData.setPlayerId(null);
+			userService.update(userData);
+		} else {
+			throw new UserNotAllowedToModifyEntityException();
+		}
 	}
 
 }
