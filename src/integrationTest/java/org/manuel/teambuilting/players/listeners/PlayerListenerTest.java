@@ -47,7 +47,7 @@ public class PlayerListenerTest {
 
 	@Test
 	public void deletePlayerTest() throws InterruptedException {
-		final Player player = Player.builder().id(new BigInteger("1")).build();
+		final Player player = Player.builder().id(BigInteger.ONE).build();
 		savePlayerToTeam(player);
 
 		final PlayerDeletedEvent event = PlayerDeletedEvent.builder().playerId(player.getId()).date(Instant.now()).userId("userId").build();

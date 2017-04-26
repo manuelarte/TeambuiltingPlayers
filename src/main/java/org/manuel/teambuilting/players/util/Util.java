@@ -5,19 +5,21 @@ import com.auth0.spring.security.api.Auth0JWTToken;
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
-import org.manuel.teambuilting.players.config.Auth0Client;
-import org.manuel.teambuilting.players.model.entities.PlayerGeocoding;
-import org.manuel.teambuilting.players.model.TimeSlice;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
-import javax.inject.Inject;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.inject.Inject;
+
+import org.manuel.teambuilting.players.config.Auth0Client;
+import org.manuel.teambuilting.players.model.TimeSlice;
+import org.manuel.teambuilting.players.model.entities.PlayerGeocoding;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * @author manuel.doncel.martos
@@ -46,7 +48,6 @@ public class Util {
 			map.put(addressComponent.types[0].toCanonicalLiteral(), addressComponent.longName);
 		}
 		final LatLng location = results[0].geometry.location;
-		final String placeId = results[0].placeId;
 		return PlayerGeocoding.builder().playerId(playerId)
 			.lat(location.lat).lng(location.lng).build();
 	}
