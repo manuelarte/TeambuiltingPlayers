@@ -34,7 +34,7 @@ public class UserDataAspect {
 	private final Auth0Client auth0Client;
 
 	@Before(
-		value="@annotation(org.manuel.teambuilting.sports.aspects.UserCanCud) && args(playerIdDependentEntity)")
+		value="@annotation(org.manuel.teambuilting.players.aspects.UserCanCud) && args(playerIdDependentEntity)")
 	public void saveEntityToUserData(final JoinPoint call, final PlayerDependentEntity playerIdDependentEntity) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
