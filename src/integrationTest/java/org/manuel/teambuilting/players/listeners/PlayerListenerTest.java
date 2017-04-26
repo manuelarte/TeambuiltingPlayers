@@ -1,5 +1,14 @@
 package org.manuel.teambuilting.players.listeners;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
@@ -12,16 +21,7 @@ import org.springframework.amqp.rabbit.test.RabbitListenerTestHarness;
 import org.springframework.amqp.rabbit.test.RabbitListenerTestHarness.InvocationData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.inject.Inject;
-import java.math.BigInteger;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
 
 /**
  * @author manuel.doncel.martos
@@ -30,7 +30,6 @@ import static junit.framework.TestCase.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @RabbitListenerTest(capture = true)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class PlayerListenerTest {
 
 	@Value("${messaging.amqp.player.exchange.name}")
