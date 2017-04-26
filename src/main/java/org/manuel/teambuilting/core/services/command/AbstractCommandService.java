@@ -3,7 +3,6 @@ package org.manuel.teambuilting.core.services.command;
 import java.io.Serializable;
 
 import org.manuel.teambuilting.players.aspects.UserDataDeletePlayer;
-import org.manuel.teambuilting.players.aspects.UserDataSave;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
@@ -20,7 +19,6 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 	protected final Repository repository;
 
 	@Override
-	@UserDataSave
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	public Entity save(final Entity entity) {
 		Assert.notNull(entity);

@@ -29,20 +29,6 @@ public class UserDataAspect {
 	private final UserService userService;
 	private final Auth0Client auth0Client;
 
-    @AfterReturning(
-            pointcut = "@annotation(org.manuel.teambuilting.players.aspects.UserDataSave)",
-            returning="retVal")
-    public void saveEntityToUserData(final JoinPoint call, Player retVal) {
-	    if (retVal instanceof Player) {
-            final Player player = (Player) call.getArgs()[0];
-            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
-            final UserData userData = userService.getOrCreateUserData(user.getId());
-            userData.setPlayerId(player.getId());
-            userService.update(userData);
-        }
-	}
-
 	@AfterReturning("@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer) && args(player)")
 	public void deletePlayerFromUserData(final JoinPoint call, final Player player) throws Throwable {
     	final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
