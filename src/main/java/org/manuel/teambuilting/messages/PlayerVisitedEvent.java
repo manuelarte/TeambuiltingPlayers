@@ -1,12 +1,14 @@
 package org.manuel.teambuilting.messages;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import java.math.BigInteger;
+import java.time.Instant;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
-import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * @author Manuel Doncel Martos
@@ -24,7 +26,7 @@ public class PlayerVisitedEvent {
     private final String userId;
 
     @NotNull
-    private final Date date;
+    private final Instant date;
 
     @JsonIgnore
     public String getRoutingKey() {

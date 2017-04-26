@@ -3,7 +3,7 @@ package org.manuel.teambuilting.players.services.command.impl;
 import com.auth0.authentication.result.UserProfile;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.Instant;
 
 import javax.inject.Inject;
 
@@ -40,7 +40,7 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 
 	private void sendPlayerDeletedEvent(final BigInteger playerId) {
 		final UserProfile userProfile = util.getUserProfile().get();
-		final PlayerDeletedEvent event = new PlayerDeletedEvent(playerId, userProfile.getId(), new Date());
+		final PlayerDeletedEvent event = new PlayerDeletedEvent(playerId, userProfile.getId(), Instant.now());
 		rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 

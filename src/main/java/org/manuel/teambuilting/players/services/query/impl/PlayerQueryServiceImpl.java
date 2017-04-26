@@ -1,6 +1,13 @@
 package org.manuel.teambuilting.players.services.query.impl;
 
 import com.auth0.authentication.result.UserProfile;
+
+import java.math.BigInteger;
+import java.time.Instant;
+import java.util.Optional;
+
+import javax.inject.Inject;
+
 import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.messages.PlayerVisitedEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
@@ -13,11 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import javax.inject.Inject;
-import java.math.BigInteger;
-import java.util.Date;
-import java.util.Optional;
 
 /**
  * @author manuel.doncel.martos
@@ -58,7 +60,7 @@ class PlayerQueryServiceImpl extends AbstractQueryService<Player, BigInteger, Pl
 	private void sendPlayerVisitedMessage(final Player visitedPlayer) {
 		final Optional<UserProfile> userProfile = util.getUserProfile();
 		final String userId = userProfile.isPresent() ? userProfile.get().getId() : null;
-		final PlayerVisitedEvent event = new PlayerVisitedEvent(visitedPlayer.getId(), userId, new Date());
+		final PlayerVisitedEvent event = new PlayerVisitedEvent(visitedPlayer.getId(), userId, Instant.now());
 		// rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 

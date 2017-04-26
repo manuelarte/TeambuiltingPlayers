@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +50,7 @@ public class PlayerListenerTest {
 		final Player player = Player.builder().id(new BigInteger("1")).build();
 		savePlayerToTeam(player);
 
-		final PlayerDeletedEvent event = PlayerDeletedEvent.builder().playerId(player.getId()).date(new Date()).userId("userId").build();
+		final PlayerDeletedEvent event = PlayerDeletedEvent.builder().playerId(player.getId()).date(Instant.now()).userId("userId").build();
 
 		rabbitTemplate.convertAndSend(playerExchange, PlayerDeletedEvent.ROUTING_KEY, event);
 
