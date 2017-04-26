@@ -1,9 +1,22 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.auth0.authentication.result.UserProfile;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.util.Util;
@@ -11,13 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
 
 /**
  * @author manuel.doncel.martos
@@ -48,7 +54,7 @@ public class PlayerCommandServiceImplTest {
 		when(playerRepository.save(player)).thenReturn(player);
 		playerCommandService.save(player);
 		verify(playerRepository, times(1)).save(player);
-		// verify(rabbitTemplate, times(1)).convertAndSend(any(String.class), eq(TeamRegisteredEvent.ROUTING_KEY), any(TeamRegisteredEvent.class));
+		verify(rabbitTemplate, times(1)).convertAndSend(any(String.class), eq(PlayerRegisteredEvent.ROUTING_KEY), any(PlayerRegisteredEvent.class));
 	}
 
 	@Test(expected = IllegalArgumentException.class)

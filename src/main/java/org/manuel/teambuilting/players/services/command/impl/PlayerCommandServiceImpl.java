@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
+import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
@@ -34,8 +35,19 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 	}
 
 	@Override
+	protected void afterSaved(final Player player) {
+		sendPlayerRegisteredEvent(player);
+	}
+
+	@Override
 	protected void afterDeleted(final BigInteger playerId) {
 		sendPlayerDeletedEvent(playerId);
+	}
+
+	private void sendPlayerRegisteredEvent(final Player player) {
+		final UserProfile userProfile = util.getUserProfile().get();
+		final PlayerRegisteredEvent event = new PlayerRegisteredEvent(player.getId(), userProfile.getId(), Instant.now());
+		rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 
 	private void sendPlayerDeletedEvent(final BigInteger playerId) {
