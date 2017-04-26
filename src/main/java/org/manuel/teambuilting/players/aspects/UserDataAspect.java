@@ -3,9 +3,13 @@ package org.manuel.teambuilting.players.aspects;
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
 
+import java.util.Optional;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.manuel.teambuilting.exceptions.UserNotAllowedToModifyEntityException;
 import org.manuel.teambuilting.players.config.Auth0Client;
 import org.manuel.teambuilting.players.model.entities.Player;
@@ -28,6 +32,18 @@ public class UserDataAspect {
 
 	private final UserService userService;
 	private final Auth0Client auth0Client;
+
+	@Before(
+		value="@annotation(org.manuel.teambuilting.sports.aspects.UserCanCud) && args(playerIdDependentEntity)")
+	public void saveEntityToUserData(final JoinPoint call, final PlayerDependentEntity playerIdDependentEntity) {
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
+		final UserData userData = userService.getOrCreateUserData(user.getId());
+		if (!Optional.ofNullable(userData.getPlayerId()).isPresent() ||
+			!userData.getPlayerId().equals(playerIdDependentEntity.getPlayerId())) {
+			throw new UserNotAllowedToModifyEntityException();
+		}
+	}
 
 	@AfterReturning("@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer) && args(player)")
 	public void deletePlayerFromUserData(final JoinPoint call, final Player player) throws Throwable {
