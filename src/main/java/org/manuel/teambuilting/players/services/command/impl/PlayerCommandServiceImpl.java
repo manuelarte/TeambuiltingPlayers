@@ -44,6 +44,10 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 		sendPlayerDeletedEvent(playerId);
 	}
 
+	public Player update(final Player player) {
+		return repository.save(player);
+	}
+
 	private void sendPlayerRegisteredEvent(final Player player) {
 		final UserProfile userProfile = util.getUserProfile().get();
 		final PlayerRegisteredEvent event = new PlayerRegisteredEvent(player.getId(), userProfile.getId(), Instant.now());
