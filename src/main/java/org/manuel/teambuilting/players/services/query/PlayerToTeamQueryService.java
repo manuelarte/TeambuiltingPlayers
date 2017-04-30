@@ -25,13 +25,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlayerToTeamQueryService extends AbstractQueryService<PlayerToTeam, BigInteger, PlayerToTeamRepository> implements PlayerDependentQueryService<PlayerToTeam, BigInteger> {
 
-	private final PlayerRepository playerRepository;
-
 	@Inject
 	public PlayerToTeamQueryService(final PlayerToTeamRepository playerToTeamRepository,
 			final PlayerRepository playerRepository) {
 		super(playerToTeamRepository);
-		this.playerRepository = playerRepository;
 	}
 
 	public Set<PlayerToTeam> getPlayersFor(final String teamId, final Date date) {
