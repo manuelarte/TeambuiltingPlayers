@@ -3,20 +3,20 @@
  */
 package org.manuel.teambuilting.players.services.query;
 
-import org.manuel.teambuilting.core.controllers.query.PlayerDependentQueryService;
-import org.manuel.teambuilting.core.services.query.AbstractQueryService;
-import org.manuel.teambuilting.players.model.entities.Player;
-import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
-import org.manuel.teambuilting.players.repositories.PlayerRepository;
-import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
-import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+import org.manuel.teambuilting.core.controllers.query.PlayerDependentQueryService;
+import org.manuel.teambuilting.core.services.query.AbstractQueryService;
+import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
+import org.manuel.teambuilting.players.repositories.PlayerRepository;
+import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Manuel Doncel Martos
@@ -34,11 +34,9 @@ public class PlayerToTeamQueryService extends AbstractQueryService<PlayerToTeam,
 		this.playerRepository = playerRepository;
 	}
 
-	public Set<Player> getPlayersFor(final String teamId, final Date date) {
-		final Collection<PlayerToTeam> playersForTeam = repository
-				.findByToDateAfterOrToDateIsNullAndTeamId(date, teamId);
-		return playersForTeam.stream()
-				.map(playerId -> playerRepository.findOne(playerId.getPlayerId())).collect(Collectors.toSet());
+	public Set<PlayerToTeam> getPlayersFor(final String teamId, final Date date) {
+		return repository
+				.findByTeamIdAndToDateAfterOrToDateIsNull(teamId, date).stream().collect(Collectors.toSet());
 	}
 
 	@Override
