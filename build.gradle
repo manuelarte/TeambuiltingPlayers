@@ -5,9 +5,6 @@ buildscript {
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
 	}
-	dependencies {
-		classpath "ru.d10xa:gradle-allure-plugin:0.5.5"
-	}
 }
 
 plugins {
@@ -16,7 +13,7 @@ plugins {
 	id 'nebula.facet' version '3.3.0'
 	id 'nebula.lint' version '6.3.0'
 	id 'org.sonarqube' version '2.2.1'
-	id 'org.springframework.boot' version '1.4.3.RELEASE'
+	id 'org.springframework.boot' version '1.5.3.RELEASE'
 }
 
 ext {
@@ -49,7 +46,6 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'org.sonarqube'
 apply plugin: 'project-report'
-apply plugin: 'ru.d10xa.allure'
 
 pmd {
 	ignoreFailures = true
@@ -137,16 +133,16 @@ repositories {
 }
 
 dependencies {
+	compile "org.springframework.boot:spring-boot:1.5.3.RELEASE"
+	compile "org.springframework.boot:spring-boot-autoconfigure:1.5.3.RELEASE"
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile "org.springframework.amqp:spring-rabbit"
 	compile 'org.springframework.boot:spring-boot-actuator-docs'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-web-services'
-	compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.0.0.M1'
-	compile 'org.springframework.data:spring-data-commons:1.12.2.RELEASE'
-	compile('org.springframework.data:spring-data-jpa:1.10.2.RELEASE') {
-		exclude module: 'aspectjrt' // because of duplicate classes in aspectjweaver, which should be used
-	}
+	compile 'org.springframework.data:spring-data-jpa:2.0.0.M1'
+	compile 'org.springframework.data:spring-data-commons:1.12.6.RELEASE'
+	compile 'org.springframework.data:spring-data-jpa:1.10.6.RELEASE'
 
 	compile "org.springframework:spring-aspects:5.0.0.M4"
 	compile "org.springframework.boot:spring-boot-starter-amqp"
