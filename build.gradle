@@ -138,6 +138,7 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile "org.springframework.amqp:spring-rabbit"
 	compile 'org.springframework.boot:spring-boot-actuator-docs'
+	compile 'org.springframework.boot:spring-boot-autoconfigure'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-web-services'
 	compile 'org.springframework.data:spring-data-jpa:2.0.0.M1'

@@ -31,6 +31,11 @@ databaseChangeLog:
                   type: decimal(5,3)
                   constraints:
                     nullable: false
+        - addUniqueConstraint:
+            columnNames: player_id
+            constraintName: player_geocoding_uk
+            tableName: player_geocoding
+
   - changeSet:
       id: 2
       author: Manuel Doncel Martos
