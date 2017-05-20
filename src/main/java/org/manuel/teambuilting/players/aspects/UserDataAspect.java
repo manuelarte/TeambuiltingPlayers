@@ -2,9 +2,7 @@ package org.manuel.teambuilting.players.aspects;
 
 import com.auth0.authentication.result.UserProfile;
 import com.auth0.spring.security.api.Auth0JWTToken;
-
-import java.util.Optional;
-
+import lombok.AllArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
+import java.util.Optional;
 
 /**
  * @author manuel.doncel.martos
@@ -35,7 +33,7 @@ public class UserDataAspect {
 
 	@Before(
 		value="@annotation(org.manuel.teambuilting.players.aspects.UserCanCud) && args(playerIdDependentEntity)")
-	public void saveEntityToUserData(final JoinPoint call, final PlayerDependentEntity playerIdDependentEntity) {
+	public void userCanCud(final JoinPoint call, final PlayerDependentEntity playerIdDependentEntity) {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
 		final UserData userData = userService.getOrCreateUserData(user.getId());
