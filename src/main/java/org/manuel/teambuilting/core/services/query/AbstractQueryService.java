@@ -1,6 +1,7 @@
 package org.manuel.teambuilting.core.services.query;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -20,6 +21,7 @@ public abstract class AbstractQueryService<Entity, ID extends Serializable, Repo
 
 	@Override
 	public Optional<Entity> findOne(final ID id) {
+		Assert.notNull(id, "Id cannot be null");
 		final Optional<Entity> retrieved = Optional.ofNullable(repository.findOne(id));
 		postFindOne(retrieved);
 		return retrieved;

@@ -55,11 +55,6 @@ spring:
 
 spring:
   profiles: dev
-  datasource:
-    url: jdbc:mysql://localhost:3306/teambuiltingplayers?createDatabaseIfNotExist=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
       host: localhost
       username: guest
@@ -74,6 +69,7 @@ endpoints:
 ---
 
 auth0:
+  apiAudience: https://manuelarte.eu.auth0.com/api/v2/
   domain: manuelarte.eu.auth0.com
   issuer: https://manuelarte.eu.auth0.com/
   clientId: XOBz4RdzWoMnpxAvXKtK9R8W9IODYKsl

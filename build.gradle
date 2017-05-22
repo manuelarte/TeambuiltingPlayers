@@ -133,12 +133,13 @@ repositories {
 }
 
 dependencies {
-	compile "org.springframework.boot:spring-boot:1.5.3.RELEASE"
-	compile "org.springframework.boot:spring-boot-autoconfigure:1.5.3.RELEASE"
+	compile "org.springframework.boot:spring-boot"
+	compile "org.springframework.boot:spring-boot-autoconfigure"
 	compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile "org.springframework.amqp:spring-rabbit"
 	compile 'org.springframework.boot:spring-boot-actuator-docs'
 	compile 'org.springframework.boot:spring-boot-autoconfigure'
+	compile "org.springframework.boot:spring-boot-starter-amqp"
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-web-services'
 	compile 'org.springframework.data:spring-data-jpa:2.0.0.M1'
@@ -146,25 +147,24 @@ dependencies {
 	compile 'org.springframework.data:spring-data-jpa:1.10.6.RELEASE'
 
 	compile "org.springframework:spring-aspects:5.0.0.M4"
-	compile "org.springframework.boot:spring-boot-starter-amqp"
-	compile 'com.auth0:auth0-spring-security-api:0.3.3'
-	
-	// Persistence
+    compile 'com.auth0:auth0-spring-security-mvc:1.2.3'
+    compile 'com.auth0:auth0-spring-security-api:1.0.0-rc.2'
+
+    // Persistence
     compile 'mysql:mysql-connector-java:5.1.35'
 	compile 'org.hibernate:hibernate-validator:5.2.4.Final'
 	compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile 'org.hibernate:hibernate-envers:5.2.1.Final'
     compile 'org.hibernate:hibernate-core:5.2.1.Final'
     compile 'org.hibernate:hibernate-entitymanager:5.2.1.Final'
-    compile 'com.zaxxer:HikariCP:2.4.7'
-    compile 'org.liquibase:liquibase-core:3.5.1'
+    compile 'org.liquibase:liquibase-core:3.5.3'
 	
 	compile 'javax.inject:javax.inject:1'
-	compile group: 'javax.transaction', name: 'jta', version: '1.1'
+    compile group: 'javax.transaction', name: 'jta', version: '1.1'
     compile 'javax.transaction:javax.transaction-api:1.2'
+    compile 'javax.validation:validation-api:2.0.0.Beta2'
 
-
-	compile 'com.google.maps:google-maps-services:0.1.17'
+    compile 'com.google.maps:google-maps-services:0.1.17'
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.1"
     compile "com.jayway.jsonpath:json-path:2.0.0"
 
@@ -178,7 +178,8 @@ dependencies {
 	compile 'io.springfox:springfox-swagger2:2.6.1'
 	compile 'io.springfox:springfox-swagger-ui:2.6.1'
 
-	runtime 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+    runtime 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
+    runtime 'com.zaxxer:HikariCP'
 
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	testCompile 'org.hamcrest:hamcrest-core:1.3'

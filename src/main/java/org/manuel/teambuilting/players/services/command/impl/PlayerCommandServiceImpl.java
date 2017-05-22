@@ -1,12 +1,6 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
-import com.auth0.authentication.result.UserProfile;
-
-import java.math.BigInteger;
-import java.time.Instant;
-
-import javax.inject.Inject;
-
+import com.auth0.Auth0User;
 import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
 import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
@@ -17,6 +11,10 @@ import org.manuel.teambuilting.players.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.math.BigInteger;
+import java.time.Instant;
 
 @Service
 class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger, PlayerRepository> implements PlayerCommandService {
@@ -49,14 +47,14 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 	}
 
 	private void sendPlayerRegisteredEvent(final Player player) {
-		final UserProfile userProfile = util.getUserProfile().get();
-		final PlayerRegisteredEvent event = new PlayerRegisteredEvent(player.getId(), userProfile.getId(), Instant.now());
+		final Auth0User userProfile = util.getUserProfile().get();
+		final PlayerRegisteredEvent event = new PlayerRegisteredEvent(player.getId(), userProfile.getUserId(), Instant.now());
 		rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 
 	private void sendPlayerDeletedEvent(final BigInteger playerId) {
-		final UserProfile userProfile = util.getUserProfile().get();
-		final PlayerDeletedEvent event = new PlayerDeletedEvent(playerId, userProfile.getId(), Instant.now());
+		final Auth0User userProfile = util.getUserProfile().get();
+		final PlayerDeletedEvent event = new PlayerDeletedEvent(playerId, userProfile.getUserId(), Instant.now());
 		rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 

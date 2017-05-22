@@ -1,13 +1,7 @@
 package org.manuel.teambuilting.players.services;
 
-import com.auth0.authentication.result.UserProfile;
-import com.auth0.spring.security.api.Auth0JWTToken;
-
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.manuel.teambuilting.players.config.Auth0Client;
+import com.auth0.Auth0User;
+import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.repositories.UserDataRepository;
@@ -17,7 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import lombok.AllArgsConstructor;
+import javax.transaction.Transactional;
+import java.util.Optional;
 
 /**
  * @author Manuel on 11/12/2016.
@@ -27,7 +22,6 @@ import lombok.AllArgsConstructor;
 public class UserService {
 
     private final UserDataRepository repository;
-    private Auth0Client auth0Client;
     private PlayerCommandService playerCommandService;
 
     public UserData getOrCreateUserData(final String userId) {
@@ -49,9 +43,9 @@ public class UserService {
 
     private Player createPlayer() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
+        final Auth0User user = (Auth0User)auth.getPrincipal();
         final Player player = Player.builder().name(user.getName()).nickname(user.getNickname())
-                .imageLink(user.getPictureURL()).build();
+                .imageLink(user.getPicture()).build();
         playerCommandService.save(player);
         return player;
     }

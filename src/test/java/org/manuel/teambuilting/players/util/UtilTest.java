@@ -20,7 +20,7 @@ public class UtilTest {
 
     @BeforeClass
     public static void beforeClass() {
-        util = new Util(null);
+        util = new Util();
     }
 
     @Test

@@ -1,25 +1,20 @@
 package org.manuel.teambuilting.players.util;
 
-import com.auth0.authentication.result.UserProfile;
-import com.auth0.spring.security.api.Auth0JWTToken;
+import com.auth0.Auth0User;
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
-
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.inject.Inject;
-
-import org.manuel.teambuilting.players.config.Auth0Client;
 import org.manuel.teambuilting.players.model.TimeSlice;
 import org.manuel.teambuilting.players.model.entities.PlayerGeocoding;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author manuel.doncel.martos
@@ -28,16 +23,10 @@ import org.springframework.util.Assert;
 @Component
 public class Util {
 
-	private final Auth0Client auth0Client;
-
-	@Inject
-	public Util(final Auth0Client auth0Client) {
-		this.auth0Client = auth0Client;
-	}
-
-	public Optional<UserProfile> getUserProfile() {
+	public Optional<Auth0User> getUserProfile() {
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return auth instanceof Auth0JWTToken ? Optional.of(auth0Client.getUser((Auth0JWTToken) auth)) : Optional.empty();
+		Object principal = auth.getPrincipal();
+		return principal instanceof Auth0User ? Optional.of((Auth0User)principal) : Optional.empty();
 	}
 
 	public PlayerGeocoding getPlayerGeocodingFrom(final BigInteger playerId, final GeocodingResult[] results) {
