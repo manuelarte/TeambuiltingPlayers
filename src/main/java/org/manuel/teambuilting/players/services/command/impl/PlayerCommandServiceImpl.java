@@ -1,12 +1,6 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
 import com.auth0.authentication.result.UserProfile;
-
-import java.math.BigInteger;
-import java.time.Instant;
-
-import javax.inject.Inject;
-
 import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
 import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
@@ -17,6 +11,10 @@ import org.manuel.teambuilting.players.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.math.BigInteger;
+import java.time.Instant;
 
 @Service
 class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger, PlayerRepository> implements PlayerCommandService {
@@ -44,6 +42,7 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 		sendPlayerDeletedEvent(playerId);
 	}
 
+	@Override
 	public Player update(final Player player) {
 		return repository.save(player);
 	}

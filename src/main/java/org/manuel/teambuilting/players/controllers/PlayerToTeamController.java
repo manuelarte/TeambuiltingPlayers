@@ -29,7 +29,7 @@ public class PlayerToTeamController extends AbstractQueryController<PlayerToTeam
 
 	@RequestMapping(method = RequestMethod.GET)
 	public Collection<PlayerToTeam> findPlayerHistory(@RequestParam(value = "playerId", defaultValue = "") final BigInteger playerId) {
-		Assert.notNull(playerId);
+		Assert.notNull(playerId, "The playerId cannot be null");
 		return queryService.findByPlayerId(playerId);
 	}
 
@@ -47,7 +47,7 @@ public class PlayerToTeamController extends AbstractQueryController<PlayerToTeam
 	@RequestMapping(path = "/teams/{teamId}", method = RequestMethod.GET)
 	public Set<PlayerToTeam> getPlayersForTeam(@PathVariable final String teamId,
 										 @RequestParam(value = "date", required = false, defaultValue = "1900-01-01") @DateTimeFormat(pattern = "yyyy-MM-dd") final Date date) {
-		Assert.hasLength(teamId);
+		Assert.hasLength(teamId, "The teamId cannot be null");
 		return queryService.getPlayersFor(teamId, date);
 	}
 

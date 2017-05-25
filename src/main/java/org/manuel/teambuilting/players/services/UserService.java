@@ -1,23 +1,17 @@
 package org.manuel.teambuilting.players.services;
 
 import com.auth0.authentication.result.UserProfile;
-import com.auth0.spring.security.api.Auth0JWTToken;
-
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.manuel.teambuilting.players.config.Auth0Client;
+import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.repositories.UserDataRepository;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.manuel.teambuilting.players.util.Util;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import lombok.AllArgsConstructor;
+import javax.transaction.Transactional;
+import java.util.Optional;
 
 /**
  * @author Manuel on 11/12/2016.
@@ -27,11 +21,11 @@ import lombok.AllArgsConstructor;
 public class UserService {
 
     private final UserDataRepository repository;
-    private Auth0Client auth0Client;
     private PlayerCommandService playerCommandService;
+    private Util util;
 
     public UserData getOrCreateUserData(final String userId) {
-        Assert.hasLength(userId);
+        Assert.hasLength(userId, "The user id cannot be null");
         final Optional<UserData> retrieved = getUserData(userId);
         return retrieved.isPresent() ? retrieved.get() : createUserData(userId);
     }
@@ -48,8 +42,7 @@ public class UserService {
     }
 
     private Player createPlayer() {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final UserProfile user = auth0Client.getUser((Auth0JWTToken) auth);
+        final UserProfile user = util.getUserProfile().get();
         final Player player = Player.builder().name(user.getName()).nickname(user.getNickname())
                 .imageLink(user.getPictureURL()).build();
         playerCommandService.save(player);
