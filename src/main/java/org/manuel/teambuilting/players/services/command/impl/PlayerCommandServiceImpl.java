@@ -12,7 +12,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.Instant;
 
@@ -23,7 +22,6 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 	private final RabbitTemplate rabbitTemplate;
 	private final Util util;
 
-	@Inject
 	public PlayerCommandServiceImpl(final @Value("${messaging.amqp.player.exchange.name}") String playerExchangeName,
 		final PlayerRepository repository, final RabbitTemplate rabbitTemplate, final Util util) {
 		super(repository);

@@ -4,8 +4,7 @@ import com.auth0.Auth0User;
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.services.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.manuel.teambuilting.players.util.Util;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserQueryController {
 
     private final UserService userService;
+    private final Util util;
 
     @RequestMapping(method = RequestMethod.GET)
     public UserData getUserData() {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final Auth0User user = (Auth0User) auth.getPrincipal();
+        final Auth0User user = util.getUserProfile().get();
         return userService.getOrCreateUserData(user.getUserId());
     }
 

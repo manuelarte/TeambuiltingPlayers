@@ -26,7 +26,7 @@ public class PlayerGeocodingResultHandlerTest {
 
 	@Test
 	public void savePlayerGeocoding() {
-		final Util util = new Util();
+		final Util util = new Util(null);
 		final PlayerGeocodingResultHandler handler = new PlayerGeocodingResultHandler(new BigInteger("123"), playerGeocodingRepository, util);
 		final GeocodingResult[] results = GeocodingExamples.ubeda();
 		handler.onResult(results);

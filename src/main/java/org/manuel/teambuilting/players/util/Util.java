@@ -1,9 +1,13 @@
 package org.manuel.teambuilting.players.util;
 
+import com.auth0.Auth0Client;
 import com.auth0.Auth0User;
+import com.auth0.Tokens;
+import com.auth0.spring.security.api.authentication.AuthenticationJsonWebToken;
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.TimeSlice;
 import org.manuel.teambuilting.players.model.entities.PlayerGeocoding;
 import org.springframework.security.core.Authentication;
@@ -21,12 +25,19 @@ import java.util.Optional;
  * @since 11-3-2017
  */
 @Component
+@AllArgsConstructor
 public class Util {
 
+	private final Auth0Client auth0Client;
+
 	public Optional<Auth0User> getUserProfile() {
+		Optional<Auth0User> toReturn = Optional.empty();
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Object principal = auth.getPrincipal();
-		return principal instanceof Auth0User ? Optional.of((Auth0User)principal) : Optional.empty();
+		if (auth instanceof AuthenticationJsonWebToken) {
+			final String token = ((AuthenticationJsonWebToken) auth).getToken();
+			toReturn = Optional.of(auth0Client.getUserProfile(new Tokens(token, null, "JWT", null)));
+		}
+		return toReturn;
 	}
 
 	public PlayerGeocoding getPlayerGeocodingFrom(final BigInteger playerId, final GeocodingResult[] results) {

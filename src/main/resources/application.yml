@@ -69,7 +69,6 @@ endpoints:
 ---
 
 auth0:
-  apiAudience: https://manuelarte.eu.auth0.com/api/v2/
   domain: manuelarte.eu.auth0.com
   issuer: https://manuelarte.eu.auth0.com/
   clientId: XOBz4RdzWoMnpxAvXKtK9R8W9IODYKsl

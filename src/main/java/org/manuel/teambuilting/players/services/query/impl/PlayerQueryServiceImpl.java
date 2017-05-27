@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.Optional;
@@ -33,7 +32,6 @@ class PlayerQueryServiceImpl extends AbstractQueryService<Player, BigInteger, Pl
 	private final RabbitTemplate rabbitTemplate;
 	private final Util util;
 
-	@Inject
 	public PlayerQueryServiceImpl(final @Value("${messaging.amqp.player.exchange.name}") String playerExchangeName,
 		final PlayerRepository playerRepository, final RabbitTemplate rabbitTemplate, final Util util) {
 		super(playerRepository);
@@ -44,7 +42,7 @@ class PlayerQueryServiceImpl extends AbstractQueryService<Player, BigInteger, Pl
 
 	@Override
 	protected void postFindOne(final Optional<Player> player) {
-		Assert.notNull(player);
+		Assert.notNull(player, "Player cannot be null");
 		if (player.isPresent()) {
 			sendPlayerVisitedMessage(player.get());
 		}
