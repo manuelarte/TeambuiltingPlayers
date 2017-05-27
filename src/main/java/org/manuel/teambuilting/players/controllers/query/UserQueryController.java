@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.players.controllers.query;
 
+import com.auth0.Auth0User;
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.services.UserService;
