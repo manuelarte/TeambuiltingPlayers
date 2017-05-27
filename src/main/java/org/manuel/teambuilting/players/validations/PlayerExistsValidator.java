@@ -31,8 +31,8 @@ public class PlayerExistsValidator implements ConstraintValidator<PlayerExists, 
 
     @Override
     public boolean isValid(final BigInteger playerId, final ConstraintValidatorContext context) {
-        Assert.notNull(playerId);
-        Assert.notNull(context);
+        Assert.notNull(playerId, "Player id cannot be null");
+        Assert.notNull(context, "Context cannot be null");
         final Optional<Player> retrieved = Optional.ofNullable(playerRepository.findOne(playerId));
         return retrieved.isPresent();
     }

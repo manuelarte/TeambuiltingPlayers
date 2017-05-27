@@ -55,11 +55,6 @@ spring:
 
 spring:
   profiles: dev
-  datasource:
-    url: jdbc:mysql://localhost:3306/teambuiltingplayers?createDatabaseIfNotExist=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
       host: localhost
       username: guest

@@ -21,8 +21,8 @@ public class UserQueryController {
 
     @RequestMapping(method = RequestMethod.GET)
     public UserData getUserData() {
-        final String userId = util.getUserProfile().get().getId();
-        return userService.getOrCreateUserData(userId);
+        final Auth0User user = util.getUserProfile().get();
+        return userService.getOrCreateUserData(user.getUserId());
     }
 
 }

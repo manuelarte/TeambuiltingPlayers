@@ -1,6 +1,6 @@
 package org.manuel.teambuilting.players.aspects;
 
-import com.auth0.authentication.result.UserProfile;
+import com.auth0.Auth0User;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -31,8 +31,8 @@ public class UserDataAspect {
 	@Before(
 		value="@annotation(org.manuel.teambuilting.players.aspects.UserCanCud) && args(playerIdDependentEntity)")
 	public void userCanCud(final JoinPoint call, final PlayerDependentEntity playerIdDependentEntity) {
-		final UserProfile user = util.getUserProfile().get();
-		final UserData userData = userService.getOrCreateUserData(user.getId());
+		final Auth0User user = util.getUserProfile().get();
+		final UserData userData = userService.getOrCreateUserData(user.getUserId());
 		if (!Optional.ofNullable(userData.getPlayerId()).isPresent() ||
 			!userData.getPlayerId().equals(playerIdDependentEntity.getPlayerId())) {
 			throw new UserNotAllowedToModifyEntityException();
@@ -41,8 +41,8 @@ public class UserDataAspect {
 
 	@AfterReturning("@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer) && args(player)")
 	public void deletePlayerFromUserData(final JoinPoint call, final Player player) throws Throwable {
-    	final UserProfile user = util.getUserProfile().get();
-		final UserData userData = userService.getOrCreateUserData(user.getId());
+    	final Auth0User user = util.getUserProfile().get();
+		final UserData userData = userService.getOrCreateUserData(user.getUserId());
 		if (userData.getPlayerId() != null && userData.getPlayerId().equals(player.getId())) {
 			userData.setPlayerId(null);
 			userService.update(userData);

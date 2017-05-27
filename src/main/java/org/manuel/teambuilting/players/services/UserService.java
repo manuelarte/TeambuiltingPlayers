@@ -1,11 +1,13 @@
 package org.manuel.teambuilting.players.services;
 
-import com.auth0.authentication.result.UserProfile;
+import com.auth0.Auth0User;
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.repositories.UserDataRepository;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
+import org.manuel.teambuilting.players.util.Util;
+import org.springframework.security.core.Authentication;
 import org.manuel.teambuilting.players.util.Util;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -42,9 +44,9 @@ public class UserService {
     }
 
     private Player createPlayer() {
-        final UserProfile user = util.getUserProfile().get();
+        final Auth0User user = util.getUserProfile().get();
         final Player player = Player.builder().name(user.getName()).nickname(user.getNickname())
-                .imageLink(user.getPictureURL()).build();
+                .imageLink(user.getPicture()).build();
         playerCommandService.save(player);
         return player;
     }

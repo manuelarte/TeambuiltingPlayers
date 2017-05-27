@@ -1,18 +1,7 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import com.auth0.Auth0User;
 import com.auth0.authentication.result.UserProfile;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Optional;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +13,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 /**
  * @author manuel.doncel.martos
@@ -48,7 +44,7 @@ public class PlayerCommandServiceImplTest {
 
 	@Test
 	public void testSaveProperPlayer() {
-		final Optional<UserProfile> userProfile = Optional.of(createUserProfile());
+		final Optional<Auth0User> userProfile = Optional.of(createUserProfile());
 		when(util.getUserProfile()).thenReturn(userProfile);
 		final Player player = Player.builder().name("player").nickname("nickname").bornAddress("Ubeda, Jaen, Spain").build();
 		when(playerRepository.save(player)).thenReturn(player);
@@ -59,12 +55,12 @@ public class PlayerCommandServiceImplTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testSaveNullTeam() {
-		final Optional<UserProfile> userProfile = Optional.of(createUserProfile());
+		final Optional<Auth0User> userProfile = Optional.of(createUserProfile());
 		when(util.getUserProfile()).thenReturn(userProfile);
 		playerCommandService.save(null);
 	}
 
-	private UserProfile createUserProfile() {
-		return new UserProfile("id", "name", "nickname", "pictureURL", "email", true, "familyName", new Date(), new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), "givenName");
+	private Auth0User createUserProfile() {
+		return new Auth0User(new UserProfile("id", "name", "nickname", "pictureURL", "email", true, "familyName", new Date(), new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), "givenName"));
 	}
 }
