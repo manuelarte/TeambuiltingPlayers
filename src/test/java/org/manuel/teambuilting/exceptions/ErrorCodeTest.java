@@ -1,17 +1,15 @@
 package org.manuel.teambuilting.exceptions;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.players.model.entities.Player;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * @author manuel.doncel.martos
  * @since 12-3-2017
  */
-@RunWith(BlockJUnit4ClassRunner.class)
 public class ErrorCodeTest {
 
 	@Test

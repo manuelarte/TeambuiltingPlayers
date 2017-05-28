@@ -5,6 +5,9 @@ buildscript {
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
 	}
+	dependencies {
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
+	}
 }
 
 plugins {
@@ -46,6 +49,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'org.sonarqube'
 apply plugin: 'project-report'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 pmd {
 	ignoreFailures = true
@@ -80,6 +84,13 @@ gradleLint {
     criticalRules += 'unused-dependency'
     rules += 'duplicate-dependency-class'
     rules += 'unused-exclude-by-dep'
+}
+
+junitPlatform {
+	platformVersion '1.0.0-M4'
+	// enableStandardTestTask true
+	// reportsDir "build/test-results/junit-platform" // this is the default
+	// logManager 'org.apache.logging.log4j.jul.LogManager'
 }
 
 jar {
@@ -181,9 +192,11 @@ dependencies {
     runtime 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.7'
     runtime 'com.zaxxer:HikariCP'
 
-	testCompile group: 'junit', name: 'junit', version: '4.12'
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
 	testCompile 'org.hamcrest:hamcrest-core:1.3'
 	testCompile 'org.mockito:mockito-core'
+
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M4'
 
 	integrationTestCompile 'org.springframework.boot:spring-boot-starter-test'
 	integrationTestCompile group: 'junit', name: 'junit', version: '4.12'

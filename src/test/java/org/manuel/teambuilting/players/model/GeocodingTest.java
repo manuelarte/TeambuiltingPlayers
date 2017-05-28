@@ -1,25 +1,21 @@
 package org.manuel.teambuilting.players.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.GeocodingResult;
-
-import java.io.IOException;
-
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author manuel.doncel.martos
  * @since 12-3-2017
  */
-@RunWith(BlockJUnit4ClassRunner.class)
 public class GeocodingTest {
 
 	@Test

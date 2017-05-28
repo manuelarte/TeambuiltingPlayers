@@ -1,14 +1,15 @@
 package org.manuel.teambuilting.players.util;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.players.model.TimeSlice;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * @author Manuel Doncel Martos
@@ -18,8 +19,8 @@ public class UtilTest {
 
     private static Util util;
 
-    @BeforeClass
-    public static void beforeClass() {
+    @BeforeEach
+    public void beforeClass() {
         util = new Util(null);
     }
 

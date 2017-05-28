@@ -2,16 +2,15 @@ package org.manuel.teambuilting.players.services.command.impl;
 
 import com.auth0.Auth0User;
 import com.auth0.authentication.result.UserProfile;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.util.Util;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.util.ArrayList;
@@ -19,13 +18,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
  * @author manuel.doncel.martos
  * @since 5-4-2017
  */
-@RunWith(MockitoJUnitRunner.class)
 public class PlayerCommandServiceImplTest {
 
 	@Mock
@@ -38,8 +37,9 @@ public class PlayerCommandServiceImplTest {
 	@InjectMocks
 	private PlayerCommandServiceImpl playerCommandService;
 
-	@Before
-	public void setup() {
+	@BeforeEach
+	public void beforeAll() {
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
@@ -53,11 +53,12 @@ public class PlayerCommandServiceImplTest {
 		verify(rabbitTemplate, times(1)).convertAndSend(any(String.class), eq(PlayerRegisteredEvent.ROUTING_KEY), any(PlayerRegisteredEvent.class));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testSaveNullTeam() {
 		final Optional<Auth0User> userProfile = Optional.of(createUserProfile());
 		when(util.getUserProfile()).thenReturn(userProfile);
-		playerCommandService.save(null);
+		assertThrows(IllegalArgumentException.class, ()->
+			playerCommandService.save(null));
 	}
 
 	private Auth0User createUserProfile() {
