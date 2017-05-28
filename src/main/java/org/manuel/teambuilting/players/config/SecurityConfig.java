@@ -24,18 +24,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final String clientId;
 	private final String issuer;
 	private final String clientSecret;
+	private final String domain;
 
 	public SecurityConfig(@Value("${auth0.clientId}") final String clientId,
 						  @Value("${auth0.issuer}") final String issuer,
-						  @Value("${auth0.clientSecret}") final String clientSecret) {
+						  @Value("${auth0.clientSecret}") final String clientSecret,
+						  @Value("${auth0.domain}") final String domain) {
 		this.clientId = clientId;
 		this.issuer = issuer;
 		this.clientSecret = clientSecret;
+		this.domain = domain;
 	}
 
 	@Bean
 	public Auth0Client auth0Client() {
-		return new Auth0ClientImpl(clientId, clientSecret, "manuelarte.eu.auth0.com");
+		return new Auth0ClientImpl(clientId, clientSecret, domain);
 	}
 
 	@Override
@@ -44,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.forHS256WithBase64Secret(clientId, issuer, clientSecret)
 				.configure(http)
 				.authorizeRequests()
-				//.antMatchers("/users/**").authenticated()
+				.antMatchers("/users/**").authenticated()
 				.anyRequest().permitAll();
 	}
 
