@@ -153,7 +153,7 @@ dependencies {
 	compile "org.springframework.boot:spring-boot-starter-amqp"
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-web-services'
-	compile 'org.springframework.data:spring-data-jpa:2.0.0.M1'
+
 	compile 'org.springframework.data:spring-data-commons:1.12.6.RELEASE'
 	compile 'org.springframework.data:spring-data-jpa:1.10.6.RELEASE'
 
