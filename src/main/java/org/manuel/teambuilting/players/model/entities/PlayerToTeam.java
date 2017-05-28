@@ -16,6 +16,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
@@ -37,6 +38,9 @@ public class PlayerToTeam implements PlayerDependentEntity, TimeSlice {
 	@Id
 	@GeneratedValue
 	private BigInteger id;
+
+	@Version
+	public Long lockVersion;
 
 	@NotNull
 	private BigInteger playerId;
