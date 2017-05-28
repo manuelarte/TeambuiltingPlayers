@@ -6,10 +6,7 @@ package org.manuel.teambuilting.players.model.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -61,8 +58,9 @@ public class Player {
 	private String imageLink;
 
 	@PersistenceConstructor
-	public Player(final String name, final String nickname, final Character sex, final String bornAddress, final String imageLink) {
-		this.name = name;
+	public Player(final Long lockVersion, final String name, final String nickname, final Character sex, final String bornAddress, final String imageLink) {
+		this.lockVersion = lockVersion;
+	    this.name = name;
 		this.nickname = nickname;
 		this.sex = sex;
 		this.bornAddress = bornAddress;
