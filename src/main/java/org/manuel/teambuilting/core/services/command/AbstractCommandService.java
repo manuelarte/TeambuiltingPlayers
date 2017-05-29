@@ -23,7 +23,7 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	@UserCanCud
 	public Entity save(final Entity entity) {
-		Assert.notNull(entity);
+		Assert.notNull(entity, "The entity cannot be null");
 		beforeSave(entity);
 		final Entity savedEntity = repository.save(entity);
 		afterSaved(savedEntity);
@@ -34,7 +34,7 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 	@UserDataDeletePlayer
 	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
 	public void delete(final ID id) {
-		Assert.notNull(id);
+		Assert.notNull(id, "The id cannot be null");
 		beforeDelete(id);
 		repository.delete(id);
 		afterDeleted(id);
