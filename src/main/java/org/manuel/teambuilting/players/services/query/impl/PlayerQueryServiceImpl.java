@@ -1,6 +1,11 @@
 package org.manuel.teambuilting.players.services.query.impl;
 
 import com.auth0.Auth0User;
+
+import java.math.BigInteger;
+import java.time.Instant;
+import java.util.Optional;
+
 import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.messages.PlayerVisitedEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
@@ -13,10 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import java.math.BigInteger;
-import java.time.Instant;
-import java.util.Optional;
 
 /**
  * @author manuel.doncel.martos
@@ -50,7 +51,7 @@ class PlayerQueryServiceImpl extends AbstractQueryService<Player, BigInteger, Pl
 
 	@Override
 	public Page<Player> findPlayerByName(final Pageable pageable, final String name) {
-		return repository.findByNameLikeIgnoreCase(pageable, name);
+		return repository.findByNameContainingIgnoreCase(pageable, name);
 	}
 
 	private void sendPlayerVisitedMessage(final Player visitedPlayer) {
