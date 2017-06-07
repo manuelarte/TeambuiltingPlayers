@@ -1,12 +1,5 @@
 package org.manuel.teambuilting.players.services.command.impl;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-
-import javax.inject.Inject;
-
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,6 +19,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * Test Suit to check that it is not possible to store wrong player history
@@ -54,8 +53,9 @@ public class PlayerToTeamCommandServiceImplTest {
 
 	@Test(expected = ValidationRuntimeException.class)
 	public void testSaveAnotherEntryForTheSameTeamAndInsideTimeFrame() {
-		final Player player = playerRepository.save(new Player("name", "nickname",
-			'M', "address", "http:\\\\imageLink"));
+		final Player player = Player.builder().name("name").nickname("nickname").sex('M').bornAddress("address")
+				.imageLink("http:\\\\imageLink").build();
+		playerRepository.save(player);
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
 
@@ -72,8 +72,9 @@ public class PlayerToTeamCommandServiceImplTest {
 
 	@Test(expected = ValidationRuntimeException.class)
 	public void testPreviousToDateIsNullSaveAnotherEntryForTheSameTeamAndInsideTimeFrame() {
-		final Player player = playerRepository.save(new Player("name", "nickname",
-			'M', "address", "http:\\\\imageLink"));
+        final Player player = Player.builder().name("name").nickname("nickname").sex('M').bornAddress("address")
+                .imageLink("http:\\\\imageLink").build();
+		playerRepository.save(player);
 		final Date teamToDate = null;
 		final Date teamFromDate = changeDate(new Date(), -10, Calendar.YEAR);
 
@@ -90,8 +91,9 @@ public class PlayerToTeamCommandServiceImplTest {
 
 	@Test
 	public void testUpdateEntityWithSameValues() {
-		final Player player = playerRepository.save(new Player("name", "nickname",
-				'M', "address", "http:\\\\imageLink"));
+        final Player player = Player.builder().name("name").nickname("nickname").sex('M').bornAddress("address")
+                .imageLink("http:\\\\imageLink").build();
+	    playerRepository.save(player);
 		final String teamId = "teamId";
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
@@ -104,8 +106,9 @@ public class PlayerToTeamCommandServiceImplTest {
 
 	@Test
 	public void testUpdateEntityChangingFromDate() {
-		final Player player = playerRepository.save(new Player("name", "nickname",
-				'M', "address", "http:\\\\imageLink"));
+        final Player player = Player.builder().name("name").nickname("nickname").sex('M').bornAddress("address")
+                .imageLink("http:\\\\imageLink").build();
+		playerRepository.save(player);
 		final String teamId = "teamId";
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
@@ -120,8 +123,9 @@ public class PlayerToTeamCommandServiceImplTest {
 	@Ignore
 	@Test(expected = ValidationRuntimeException.class)
 	public void testCannotStorePlayerHistoryAfterEndOfTheTeam() {
-		final Player player = playerRepository.save(new Player("name", "nickname",
-			'M', "address", "imageLink"));
+        final Player player = Player.builder().name("name").nickname("nickname").sex('M').bornAddress("address")
+                .imageLink("http:\\\\imageLink").build();
+		playerRepository.save(player);
 		final String teamId = "teamId";
 		final Date teamToDate = new Date();
 		final Date teamFromDate = changeDate(teamToDate, -2, Calendar.YEAR);
