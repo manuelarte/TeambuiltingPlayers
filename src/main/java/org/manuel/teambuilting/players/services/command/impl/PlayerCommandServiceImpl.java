@@ -11,6 +11,7 @@ import org.manuel.teambuilting.players.util.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.math.BigInteger;
 import java.time.Instant;
@@ -42,6 +43,8 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 
 	@Override
 	public Player update(final Player player) {
+		Assert.notNull(player, "The entity cannot be null");
+		Assert.notNull(player.getId(), "The id cannot be null");
 		return repository.save(player);
 	}
 

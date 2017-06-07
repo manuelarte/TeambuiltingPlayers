@@ -34,9 +34,10 @@ public class PlayerGeocodingResultHandler implements Callback<GeocodingResult[]>
 	public void onResult(final GeocodingResult[] results) {
 		Assert.notNull(results);
 		final Collection<PlayerGeocoding> geocodingForPlayer = repository.findByPlayerId(playerId);
-		final BigInteger id = !geocodingForPlayer.isEmpty() ? geocodingForPlayer.iterator().next().getId() : null;
+		final PlayerGeocoding previousEntry = !geocodingForPlayer.isEmpty() ? geocodingForPlayer.iterator().next() : null;
         final PlayerGeocoding playerGeocodingFrom = util.getPlayerGeocodingFrom(playerId, results);
-        playerGeocodingFrom.setId(id);
+        playerGeocodingFrom.setId(previousEntry.getId());
+        playerGeocodingFrom.setLockVersion(previousEntry.getLockVersion());
         repository.save(playerGeocodingFrom);
 	}
 

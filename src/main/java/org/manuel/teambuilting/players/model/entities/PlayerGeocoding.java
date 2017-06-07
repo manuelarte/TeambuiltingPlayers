@@ -13,6 +13,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
@@ -33,6 +34,9 @@ public class PlayerGeocoding implements PlayerDependentEntity {
     @Id
     @GeneratedValue
     protected BigInteger id;
+
+    @Version
+    public Long lockVersion;
 
     @NotNull
     protected BigInteger playerId;
