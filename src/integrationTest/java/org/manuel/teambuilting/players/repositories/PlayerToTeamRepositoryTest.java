@@ -54,6 +54,22 @@ public class PlayerToTeamRepositoryTest {
     }
 
     @Test
+    public void testRetrievePlayerStillPlayingInTeamDateNull() {
+        final String name = "Manuel Doncel Martos";
+        final Player player = Player.builder().name(name).nickname("Manuel D").build();
+        playerRepository.save(player);
+
+        final String teamId = "teamId";
+        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId())
+                .teamId(teamId).fromDate(new Date()).build();
+        playerToTeamRepository.save(playerToTeam);
+
+        final Collection<PlayerToTeam> byTeamIdAndToDateAfterOrToDateIsNull = playerToTeamRepository.findByTeamIdAndToDateAfterOrToDateIsNull(teamId, null);
+        assertEquals(1, byTeamIdAndToDateAfterOrToDateIsNull.size());
+        assertEquals(playerToTeam, byTeamIdAndToDateAfterOrToDateIsNull.iterator().next());
+    }
+
+    @Test
     public void testRetrievePlayerStoppedPlayingInTeam() {
         final String name = "Manuel Doncel Martos";
         final Player player = Player.builder().name(name).nickname("Manuel D").build();
