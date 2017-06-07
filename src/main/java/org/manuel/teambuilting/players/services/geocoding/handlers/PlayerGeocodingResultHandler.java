@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * @author manuel.doncel.martos
@@ -34,10 +35,12 @@ public class PlayerGeocodingResultHandler implements Callback<GeocodingResult[]>
 	public void onResult(final GeocodingResult[] results) {
 		Assert.notNull(results);
 		final Collection<PlayerGeocoding> geocodingForPlayer = repository.findByPlayerId(playerId);
-		final PlayerGeocoding previousEntry = !geocodingForPlayer.isEmpty() ? geocodingForPlayer.iterator().next() : null;
-        final PlayerGeocoding playerGeocodingFrom = util.getPlayerGeocodingFrom(playerId, results);
-        playerGeocodingFrom.setId(previousEntry.getId());
-        playerGeocodingFrom.setLockVersion(previousEntry.getLockVersion());
+		final Optional<PlayerGeocoding> previousEntry = !geocodingForPlayer.isEmpty() ? Optional.of(geocodingForPlayer.iterator().next()) : Optional.empty();
+		final PlayerGeocoding playerGeocodingFrom = util.getPlayerGeocodingFrom(playerId, results);
+		if (previousEntry.isPresent()) {
+			playerGeocodingFrom.setId(previousEntry.get().getId());
+			playerGeocodingFrom.setLockVersion(previousEntry.get().getLockVersion());
+		}
         repository.save(playerGeocodingFrom);
 	}
 
