@@ -21,6 +21,6 @@ public class GlobalDefaultExceptionHandler {
 	public ResponseEntity<Object> validationExceptionHandler(final ValidationRuntimeException exception, final WebRequest request) {
 		final HttpStatus status = HttpStatus.BAD_REQUEST;
 		final ExceptionMessage powerhouseErrorMessage = new ExceptionMessage(status, exception.getErrorCode(), exception.getMessage(), exception.getDeveloperMessage());
-		return new ResponseEntity<Object>(powerhouseErrorMessage, status);
+		return new ResponseEntity<>(powerhouseErrorMessage, status);
 	}
 }
