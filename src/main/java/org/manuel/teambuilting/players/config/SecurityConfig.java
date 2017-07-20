@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		JwtWebSecurityConfigurer
-				.forHS256WithBase64Secret(clientId, issuer, clientSecret)
+				.forRS256(clientId, issuer)
+				//.forHS256WithBase64Secret(clientId, issuer, clientSecret)
 				.configure(http)
 				.authorizeRequests()
 				.antMatchers("/users/**").authenticated()
