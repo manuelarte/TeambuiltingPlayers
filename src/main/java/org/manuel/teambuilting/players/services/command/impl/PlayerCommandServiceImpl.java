@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.math.BigInteger;
-import java.time.Instant;
+import java.util.Date;
 
 @Service
 class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger, PlayerRepository> implements PlayerCommandService {
@@ -50,13 +50,13 @@ class PlayerCommandServiceImpl extends AbstractCommandService<Player, BigInteger
 
 	private void sendPlayerRegisteredEvent(final Player player) {
 		final Auth0User userProfile = util.getUserProfile().get();
-		final PlayerRegisteredEvent event = new PlayerRegisteredEvent(player.getId(), userProfile.getUserId(), Instant.now());
+		final PlayerRegisteredEvent event = new PlayerRegisteredEvent(player.getId(), userProfile.getUserId(), new Date());
 		rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 
 	private void sendPlayerDeletedEvent(final BigInteger playerId) {
 		final Auth0User userProfile = util.getUserProfile().get();
-		final PlayerDeletedEvent event = new PlayerDeletedEvent(playerId, userProfile.getUserId(), Instant.now());
+		final PlayerDeletedEvent event = new PlayerDeletedEvent(playerId, userProfile.getUserId(), new Date());
 		rabbitTemplate.convertAndSend(playerExchangeName, event.getRoutingKey(), event);
 	}
 

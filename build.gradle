@@ -4,6 +4,8 @@ buildscript {
 		mavenCentral()
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
+		maven { url "$projectDir/repo"
+		}
 	}
 	dependencies {
 		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M4'
@@ -161,6 +163,8 @@ dependencies {
     compile 'com.auth0:auth0-spring-security-mvc:1.2.3'
 	compile 'com.auth0:auth0-spring-security-api:1.0.0-rc.2'
 
+    compile 'org.manuel.teambuilting:teambuiltingmessages:0.1.0-SNAPSHOT'
+
     // Persistence
     compile 'mysql:mysql-connector-java:5.1.35'
 	compile 'org.hibernate:hibernate-validator:5.2.4.Final'
@@ -236,3 +240,11 @@ dependencyUpdates.resolutionStrategy = {
 task stage {
     dependsOn build
 }
+
+task procfileTxt() << {
+    def file = new File("$projectDir/Procfile")
+    file.createNewFile()
+    file.text = """web: java -Dserver.port=\$PORT -Dspring.profiles.active=production -jar build/libs/${microserviceName}-${version}.jar"""
+}
+
+build.finalizedBy(procfileTxt)

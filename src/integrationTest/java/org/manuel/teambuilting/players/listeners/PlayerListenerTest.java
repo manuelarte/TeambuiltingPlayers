@@ -1,15 +1,5 @@
 package org.manuel.teambuilting.players.listeners;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.math.BigInteger;
-import java.time.Instant;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
@@ -23,6 +13,14 @@ import org.springframework.amqp.rabbit.test.RabbitListenerTestHarness.Invocation
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author manuel.doncel.martos
@@ -50,7 +48,7 @@ public class PlayerListenerTest {
 		final Player player = Player.builder().id(BigInteger.ONE).build();
 		savePlayerToTeam(player);
 
-		final PlayerDeletedEvent event = PlayerDeletedEvent.builder().playerId(player.getId()).date(Instant.now()).userId("userId").build();
+		final PlayerDeletedEvent event = PlayerDeletedEvent.builder().playerId(player.getId()).date(new Date()).userId("userId").build();
 
 		rabbitTemplate.convertAndSend(playerExchange, PlayerDeletedEvent.ROUTING_KEY, event);
 
