@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.manuel.teambuilting.core.model.PlayerDependentEntity;
-import org.manuel.teambuilting.exceptions.UserNotAllowedToModifyEntityException;
+import org.manuel.teambuilting.core.exceptions.UserNotAllowedToModifyEntityException;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.services.UserService;

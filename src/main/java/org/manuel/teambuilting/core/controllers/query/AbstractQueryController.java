@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.core.controllers.query;
 
 import org.manuel.teambuilting.core.services.query.BaseQueryService;
-import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Optional;
 
-import static org.manuel.teambuilting.exceptions.ErrorCode.ID_NOT_FOUND;
+import static org.manuel.teambuilting.core.exceptions.ErrorCode.ID_NOT_FOUND;
 
 /**
  * @author manuel.doncel.martos

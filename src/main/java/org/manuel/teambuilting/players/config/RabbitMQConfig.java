@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class RabbitMQConfig  {
 
-    private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd\'T\'HH:mm:ss.SSSZ";
-
     @Bean
     @Primary
     public ObjectMapper objectMapper() {
@@ -29,9 +27,7 @@ public class RabbitMQConfig  {
 
     @Bean(name = "eventMessageConverter")
     public MessageConverter messageConverter() {
-        final Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setJsonObjectMapper(objectMapper());
-        return converter;
+        return new Jackson2JsonMessageConverter(objectMapper());
     }
 
 }

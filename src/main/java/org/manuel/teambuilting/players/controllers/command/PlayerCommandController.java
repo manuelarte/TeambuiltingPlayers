@@ -1,7 +1,7 @@
 package org.manuel.teambuilting.players.controllers.command;
 
 import lombok.AllArgsConstructor;
-import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
 import org.manuel.teambuilting.players.services.geocoding.PlayerGeocodingService;

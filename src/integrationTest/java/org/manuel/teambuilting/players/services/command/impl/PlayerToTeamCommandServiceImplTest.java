@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.manuel.teambuilting.exceptions.ValidationRuntimeException;
+import org.manuel.teambuilting.core.exceptions.ValidationRuntimeException;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
