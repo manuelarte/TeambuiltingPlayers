@@ -41,10 +41,9 @@ spring:
       org.hibernate.envers.global_with_modified_flag: true
       org.hibernate.envers.track_entities_changed_in_revision: true
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:teambuiltingplayers}?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:teambuiltingplayers}?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&serverTimezone=UTC
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:root}
-    driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
       host: ${RABBITMQ_HOST:localhost}
       virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
