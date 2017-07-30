@@ -1,14 +1,13 @@
 package org.manuel.teambuilting.core.services.command;
 
-import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.aspects.UserCanCud;
 import org.manuel.teambuilting.players.aspects.UserDataDeletePlayer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 
-import lombok.AllArgsConstructor;
+import java.io.Serializable;
 
 /**
  * @author manuel.doncel.martos
@@ -20,7 +19,7 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 	protected final Repository repository;
 
 	@Override
-	@PreAuthorize("hasAuthority('user') or hasAuthority('admin')")
+	@PreAuthorize("isAuthenticated()")
 	@UserCanCud
 	public Entity save(final Entity entity) {
 		Assert.notNull(entity, "The entity cannot be null");

@@ -7,26 +7,27 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.manuel.teambuilting.players.TestUtils;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
+import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
+import org.manuel.teambuilting.players.repositories.UserDataRepository;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.Collection;
+import java.math.BigInteger;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -40,12 +41,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Manuel Doncel Martos
  * @since 16/04/2017.
  */
+@WebAppConfiguration
+@EnableWebMvc
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PlayerToTeamControllerTest {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+
+    private static String token;
+    private static TestUtils.TestUser user;
+
+    @Inject
+    private FilterChainProxy springSecurityFilterChain;
 
     @Inject
     private WebApplicationContext context;
@@ -54,18 +63,24 @@ public class PlayerToTeamControllerTest {
     private PlayerRepository playerRepository;
 
     @Inject
+    private UserDataRepository userDataRepository;
+
+    @Inject
     private PlayerToTeamRepository playerToTeamRepository;
 
     private MockMvc mvc;
 
     @BeforeClass
     public static void beforeClass() {
-        setSecurityContext();
+        user = TestUtils.manuel();
+        token = TestUtils.getTokenForUser(TestUtils.manuel());
     }
 
     @Before
     public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilters(this.springSecurityFilterChain)
+                .build();
     }
 
     @Test
@@ -113,67 +128,31 @@ public class PlayerToTeamControllerTest {
     }
 
     @Test
-    public void testSavePlayerToTeam() throws Exception {
-        final Player player = Player.builder().name("name").build();
+    public void testSavePlayerToTeamForAnUserNotHisPlayer() throws Exception {
+        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(BigInteger.TEN).teamId("teamId").fromDate(new Date()).build();
+        mvc.perform(post("/playersToTeams", "")
+                .header("Authorization", MessageFormat.format("Bearer {0}", token))
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(playerToTeam))).andExpect(status().is(403)).andReturn().getResponse()
+                .getContentAsString();
+    }
+
+    @Test
+    public void testSavePlayerToTeamForAnUserAndHisPlayer() throws Exception {
+        final Player player = Player.builder().name("Manuel Doncel Martos").nickname("manuel").build();
         playerRepository.save(player);
-        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
-        final String contentAsString = mvc.perform(post("/playersToTeams", "").contentType(MediaType.APPLICATION_JSON).content(asJsonString(playerToTeam))).andExpect(status().isOk()).andReturn().getResponse()
+        final UserData userData = UserData.builder().userId(user.getUser_id()).playerId(player.getId()).build();
+        userDataRepository.save(userData);
+
+        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(userData.getPlayerId()).teamId("teamId").fromDate(new Date()).build();
+        mvc.perform(post("/playersToTeams", "")
+                .header("Authorization", MessageFormat.format("Bearer {0}", token))
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(playerToTeam))).andExpect(status().is2xxSuccessful()).andReturn().getResponse()
                 .getContentAsString();
     }
 
     @SneakyThrows
     private static String asJsonString(final Object obj) {
-        mapper.findAndRegisterModules();
         return mapper.writeValueAsString(obj);
-    }
-
-    private static void setSecurityContext() {
-        final SecurityContext securityContext = new SecurityContext() {
-            @Override
-            public Authentication getAuthentication() {
-                return new Authentication() {
-                    @Override
-                    public Collection<? extends GrantedAuthority> getAuthorities() {
-                        return Arrays.asList(new SimpleGrantedAuthority("user"), new SimpleGrantedAuthority("admin"));
-                    }
-
-                    @Override
-                    public Object getCredentials() {
-                        return null;
-                    }
-
-                    @Override
-                    public Object getDetails() {
-                        return null;
-                    }
-
-                    @Override
-                    public Object getPrincipal() {
-                        return null;
-                    }
-
-                    @Override
-                    public boolean isAuthenticated() {
-                        return true;
-                    }
-
-                    @Override
-                    public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {
-
-                    }
-
-                    @Override
-                    public String getName() {
-                        return null;
-                    }
-                };
-            }
-
-            @Override
-            public void setAuthentication(final Authentication authentication) {
-            }
-        };
-        SecurityContextHolder.setContext(securityContext);
     }
 
 }

@@ -75,8 +75,5 @@ auth0:
   clientSecret: tvKvKZd1tigVIAGztcOELwKIj0B0DswEbLdRG1PWu7NfZXk6VGbGkWdQjFpTZmWp
   securedRoute: NOT_USED
   base64EncodedSecret: true
-  authorityStrategy: ROLES
-  defaultAuth0ApiSecurityEnabled: false
-  signingAlgorithm: HS256
   #signingAlgorithm: RS256
   #publicKeyPath: certificate/cert.pem

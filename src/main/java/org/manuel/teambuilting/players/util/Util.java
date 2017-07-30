@@ -3,7 +3,7 @@ package org.manuel.teambuilting.players.util;
 import com.auth0.Auth0Client;
 import com.auth0.Auth0User;
 import com.auth0.Tokens;
-import com.auth0.spring.security.api.authentication.AuthenticationJsonWebToken;
+import com.auth0.spring.security.api.authentication.JwtAuthentication;
 import com.google.maps.model.AddressComponent;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
@@ -33,8 +33,8 @@ public class Util {
 	public Optional<Auth0User> getUserProfile() {
 		Optional<Auth0User> toReturn = Optional.empty();
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth instanceof AuthenticationJsonWebToken) {
-			final String token = ((AuthenticationJsonWebToken) auth).getToken();
+		if (auth instanceof JwtAuthentication) {
+			final String token = ((JwtAuthentication) auth).getToken();
 			toReturn = Optional.of(auth0Client.getUserProfile(new Tokens(token, null, "JWT", null)));
 		}
 		return toReturn;

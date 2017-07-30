@@ -40,7 +40,7 @@ public class UserDataAspect {
 	}
 
 	@AfterReturning("@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer) && args(player)")
-	public void deletePlayerFromUserData(final JoinPoint call, final Player player) throws Throwable {
+	public void deletePlayerFromUserData(final JoinPoint call, final Player player) {
     	final Auth0User user = util.getUserProfile().get();
 		final UserData userData = userService.getOrCreateUserData(user.getUserId());
 		if (userData.getPlayerId() != null && userData.getPlayerId().equals(player.getId())) {
