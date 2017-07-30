@@ -164,7 +164,6 @@ dependencies {
 	compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile 'org.hibernate:hibernate-envers:5.2.10.Final'
     compile 'org.hibernate:hibernate-core:5.2.10.Final'
-    compile 'org.hibernate:hibernate-entitymanager:5.2.10.Final'
     compile 'org.liquibase:liquibase-core:3.5.3'
 	
 	compile 'javax.inject:javax.inject:1'
