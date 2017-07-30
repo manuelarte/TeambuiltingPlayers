@@ -3,11 +3,7 @@
  */
 package org.manuel.teambuilting.players.model.entities;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Immutable;
+import lombok.*;
 import org.hibernate.envers.Audited;
 import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.manuel.teambuilting.players.model.TimeSlice;
@@ -23,9 +19,10 @@ import java.util.Date;
  * @author Manuel Doncel Martos
  *
  */
-@Immutable
 @Data
 @lombok.Builder(toBuilder = true)
+@ToString
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity

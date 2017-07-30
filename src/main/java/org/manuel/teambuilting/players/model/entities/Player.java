@@ -6,8 +6,10 @@ package org.manuel.teambuilting.players.model.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import lombok.*;
-import org.hibernate.annotations.Immutable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.PersistenceConstructor;
 
@@ -26,7 +28,6 @@ import java.math.BigInteger;
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize
-@Immutable
 @Data
 @lombok.Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
