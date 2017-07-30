@@ -28,7 +28,7 @@ import java.util.Date;
  */
 @Immutable
 @Data
-@lombok.Builder
+@lombok.Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity

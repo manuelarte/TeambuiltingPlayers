@@ -3,6 +3,7 @@ package org.manuel.teambuilting.players.controllers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -138,16 +139,38 @@ public class PlayerToTeamControllerTest {
 
     @Test
     public void testSavePlayerToTeamForAnUserAndHisPlayer() throws Exception {
-        final Player player = Player.builder().name("Manuel Doncel Martos").nickname("manuel").build();
-        playerRepository.save(player);
-        final UserData userData = UserData.builder().userId(user.getUser_id()).playerId(player.getId()).build();
-        userDataRepository.save(userData);
+        final Player player = createContextForUser();
 
-        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(userData.getPlayerId()).teamId("teamId").fromDate(new Date()).build();
+        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
         mvc.perform(post("/playersToTeams", "")
                 .header("Authorization", MessageFormat.format("Bearer {0}", token))
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(playerToTeam))).andExpect(status().is2xxSuccessful()).andReturn().getResponse()
                 .getContentAsString();
+    }
+
+    @Test
+    public void testUpdatePlayerToTeamEntity() throws Exception {
+        final Player player = createContextForUser();
+
+        final Date fromDate = new DateTime().minusYears(1).toDate();
+        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(fromDate).build();
+        playerToTeamRepository.save(playerToTeam);
+
+        final PlayerToTeam expected = playerToTeam.toBuilder().fromDate(new Date()).build();
+        final String updatedJson = mvc.perform(post("/playersToTeams", "")
+                .header("Authorization", MessageFormat.format("Bearer {0}", token))
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(expected))).andExpect(status().is2xxSuccessful()).andReturn().getResponse()
+                .getContentAsString();
+        final PlayerToTeam actual = mapper.readValue(updatedJson, PlayerToTeam.class);
+        assertEquals(expected, actual);
+    }
+
+    private Player createContextForUser() {
+        final Player player = Player.builder().name("Manuel Doncel Martos").nickname("manuel").build();
+        playerRepository.save(player);
+        final UserData userData = UserData.builder().userId(user.getUser_id()).playerId(player.getId()).build();
+        userDataRepository.save(userData);
+        return player;
     }
 
     @SneakyThrows

@@ -1,5 +1,6 @@
 package org.manuel.teambuilting.players.listeners;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.manuel.teambuilting.messages.PlayerDeletedEvent;
@@ -44,6 +45,7 @@ public class PlayerListenerTest {
 	private RabbitListenerTestHarness harness;
 
 	@Test
+	@Ignore
 	public void deletePlayerTest() throws InterruptedException {
 		final Player player = Player.builder().id(BigInteger.ONE).build();
 		savePlayerToTeam(player);
