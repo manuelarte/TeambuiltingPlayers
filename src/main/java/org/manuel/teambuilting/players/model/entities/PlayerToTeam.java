@@ -13,10 +13,7 @@ import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.manuel.teambuilting.players.model.TimeSlice;
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
@@ -36,7 +33,7 @@ import java.util.Date;
 public class PlayerToTeam implements PlayerDependentEntity, TimeSlice {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger id;
 
 	@Version

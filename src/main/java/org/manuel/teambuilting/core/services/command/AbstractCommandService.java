@@ -21,7 +21,7 @@ public class AbstractCommandService<Entity, ID extends Serializable, Repository 
 	@Override
 	@PreAuthorize("isAuthenticated()")
 	@UserCanCud
-	public Entity save(final Entity entity) {
+    public Entity save(final Entity entity) {
 		Assert.notNull(entity, "The entity cannot be null");
 		beforeSave(entity);
 		final Entity savedEntity = repository.save(entity);
