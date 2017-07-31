@@ -157,7 +157,7 @@ dependencies {
 
     compile 'org.manuel.teambuilting:teambuilting-core:0.1.0-SNAPSHOT'
     compile 'org.manuel.teambuilting:teambuilting-messages:0.1.0-SNAPSHOT'
-	compile 'org.manuel.teambuilting:teambuilting-exceptions:0.1.0-SNAPSHOT'
+
 
     // Persistence
     compile 'mysql:mysql-connector-java:6.0.6'
