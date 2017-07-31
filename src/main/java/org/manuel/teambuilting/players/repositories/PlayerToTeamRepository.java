@@ -19,7 +19,7 @@ import java.util.Date;
  *
  */
 @Repository
-public interface PlayerToTeamRepository extends PlayerDependentRepository<PlayerToTeam, BigInteger>, JpaRepository<PlayerToTeam, BigInteger> {
+public interface PlayerToTeamRepository extends PlayerDependentRepository<PlayerToTeam>, JpaRepository<PlayerToTeam, BigInteger> {
 
 	/**
 	 * Look for all the players that have played in the team whose id is teamId

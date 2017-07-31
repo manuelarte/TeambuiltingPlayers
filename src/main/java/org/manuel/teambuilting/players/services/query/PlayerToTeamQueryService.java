@@ -3,7 +3,7 @@
  */
 package org.manuel.teambuilting.players.services.query;
 
-import org.manuel.teambuilting.core.controllers.query.PlayerDependentQueryService;
+import org.manuel.teambuilting.core.services.query.PlayerDependentQueryService;
 import org.manuel.teambuilting.core.services.query.AbstractQueryService;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
@@ -21,7 +21,7 @@ import java.util.Set;
  *
  */
 @Service
-public class PlayerToTeamQueryService extends AbstractQueryService<PlayerToTeam, BigInteger, PlayerToTeamRepository> implements PlayerDependentQueryService<PlayerToTeam, BigInteger> {
+public class PlayerToTeamQueryService extends AbstractQueryService<PlayerToTeam, BigInteger, PlayerToTeamRepository> implements PlayerDependentQueryService<PlayerToTeam> {
 
 	@Inject
 	public PlayerToTeamQueryService(final PlayerToTeamRepository playerToTeamRepository) {

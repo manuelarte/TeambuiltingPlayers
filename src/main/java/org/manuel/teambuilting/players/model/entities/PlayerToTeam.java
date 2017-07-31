@@ -5,7 +5,6 @@ package org.manuel.teambuilting.players.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import org.hibernate.annotations.Immutable;
 import org.hibernate.envers.Audited;
 import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.manuel.teambuilting.players.model.TimeSlice;
@@ -39,12 +38,10 @@ public class PlayerToTeam implements PlayerDependentEntity, TimeSlice {
 	@Version
 	public Long lockVersion;
 
-    @Immutable
-	@NotNull
+    @NotNull
 	private BigInteger playerId;
 
-    @Immutable
-	@NotNull
+    @NotNull
 	private String teamId;
 
 	@NotNull
