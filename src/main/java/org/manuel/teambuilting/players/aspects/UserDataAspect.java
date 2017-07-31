@@ -29,7 +29,7 @@ public class UserDataAspect {
 	private final Util util;
 
 	@Before(
-		value="@annotation(org.manuel.teambuilting.players.aspects.UserCanCud) && args(playerIdDependentEntity)")
+		value="@annotation(org.manuel.teambuilting.core.aspects.UserCanCud) && args(playerIdDependentEntity)")
 	public void userCanCud(final JoinPoint call, final PlayerDependentEntity playerIdDependentEntity) {
 		final Auth0User user = util.getUserProfile().get();
 		final UserData userData = userService.getOrCreateUserData(user.getUserId());
@@ -39,7 +39,7 @@ public class UserDataAspect {
 		}
 	}
 
-	@AfterReturning("@annotation(org.manuel.teambuilting.players.aspects.UserDataDeletePlayer) && args(player)")
+	@AfterReturning("@annotation(org.manuel.teambuilting.core.aspects.UserDataDeletePlayer) && args(player)")
 	public void deletePlayerFromUserData(final JoinPoint call, final Player player) {
     	final Auth0User user = util.getUserProfile().get();
 		final UserData userData = userService.getOrCreateUserData(user.getUserId());
