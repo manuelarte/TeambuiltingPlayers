@@ -29,7 +29,7 @@ import java.math.BigInteger;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonDeserialize
 @Data
-@lombok.Builder
+@lombok.Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @Entity

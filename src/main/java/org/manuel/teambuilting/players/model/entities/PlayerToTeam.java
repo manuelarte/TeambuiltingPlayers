@@ -3,7 +3,9 @@
  */
 package org.manuel.teambuilting.players.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 import org.hibernate.envers.Audited;
 import org.manuel.teambuilting.core.model.PlayerDependentEntity;
 import org.manuel.teambuilting.players.model.TimeSlice;
@@ -19,6 +21,7 @@ import java.util.Date;
  * @author Manuel Doncel Martos
  *
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @lombok.Builder(toBuilder = true)
 @ToString
@@ -36,9 +39,11 @@ public class PlayerToTeam implements PlayerDependentEntity, TimeSlice {
 	@Version
 	public Long lockVersion;
 
+    @Immutable
 	@NotNull
 	private BigInteger playerId;
 
+    @Immutable
 	@NotNull
 	private String teamId;
 
