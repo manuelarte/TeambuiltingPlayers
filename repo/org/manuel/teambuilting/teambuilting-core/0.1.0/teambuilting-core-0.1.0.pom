@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.manuel.teambuilting</groupId>
   <artifactId>teambuilting-core</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
   <dependencies>
     <dependency>
       <groupId>org.springframework.amqp</groupId>
@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.manuel.teambuilting</groupId>
       <artifactId>teambuilting-exceptions</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.1.0</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

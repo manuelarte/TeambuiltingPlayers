@@ -32,7 +32,7 @@ import static org.junit.Assert.assertNotNull;
 @RabbitListenerTest(capture = true)
 public class PlayerListenerTest {
 
-	@Value("${messaging.amqp.player.exchange.name}")
+	@Value("TEST.${messaging.amqp.player.exchange.name}")
 	private String playerExchange;
 
 	@Inject

@@ -3,9 +3,11 @@
   <groupId>org.manuel.teambuilting</groupId>
   <artifactId>teambuilting-exceptions</artifactId>
   <versioning>
+    <release>0.1.0</release>
     <versions>
       <version>0.1.0-SNAPSHOT</version>
+      <version>0.1.0</version>
     </versions>
-    <lastUpdated>20170731101642</lastUpdated>
+    <lastUpdated>20170805193944</lastUpdated>
   </versioning>
 </metadata>

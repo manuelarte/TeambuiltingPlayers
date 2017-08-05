@@ -25,7 +25,7 @@ public class PlayerQueryController extends AbstractQueryController<Player, BigIn
 	@RequestMapping(method = RequestMethod.GET)
 	public Page<Player> findPlayerByName(@PageableDefault(page = 0, size = 20) final Pageable pageable,
 										 @RequestParam(value = "name", defaultValue = "") final String name) {
-		Assert.notNull(name);
+		Assert.notNull(name, "The name of the player cannot be null");
 		return queryService.findPlayerByName(pageable, name);
 	}
 
