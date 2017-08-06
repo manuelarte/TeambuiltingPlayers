@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.messages.PlayerRegisteredEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.core.utils.Util;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
