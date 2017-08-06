@@ -6,7 +6,7 @@ import org.manuel.teambuilting.messages.PlayerVisitedEvent;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerRepository;
 import org.manuel.teambuilting.players.services.query.PlayerQueryService;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.core.utils.Util;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;

@@ -21,7 +21,7 @@ public class UtilTest {
 
     @BeforeEach
     public void beforeClass() {
-        util = new Util(null);
+        util = new Util();
     }
 
     @Test

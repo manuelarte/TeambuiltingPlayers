@@ -4,7 +4,7 @@ import com.auth0.Auth0User;
 import lombok.AllArgsConstructor;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.services.UserService;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.core.utils.Util;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

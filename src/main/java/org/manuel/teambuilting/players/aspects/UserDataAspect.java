@@ -11,7 +11,7 @@ import org.manuel.teambuilting.core.exceptions.UserNotAllowedToModifyEntityExcep
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.services.UserService;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.core.utils.Util;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

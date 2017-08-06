@@ -6,9 +6,7 @@ import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.repositories.UserDataRepository;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
-import org.manuel.teambuilting.players.util.Util;
-import org.springframework.security.core.Authentication;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.core.utils.Util;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
