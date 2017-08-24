@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.manuel.teambuilting.players.model.entities.PlayerGeocoding;
 import org.manuel.teambuilting.players.repositories.PlayerGeocodingRepository;
 import org.manuel.teambuilting.players.services.geocoding.handlers.PlayerGeocodingResultHandler;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.players.util.PlayerUtils;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -30,11 +30,12 @@ public class PlayerGeocodingResultHandlerTest {
 
 	@Test
 	public void savePlayerGeocoding() {
-		final Util util = new Util();
-		final PlayerGeocodingResultHandler handler = new PlayerGeocodingResultHandler(new BigInteger("123"), playerGeocodingRepository, util);
+		final PlayerUtils playerUtils = new PlayerUtils();
+		final PlayerGeocodingResultHandler handler = new PlayerGeocodingResultHandler(new BigInteger("123"),
+			playerGeocodingRepository, playerUtils);
 		final GeocodingResult[] results = GeocodingExamples.ubeda();
 		handler.onResult(results);
-		final PlayerGeocoding expected = util.getPlayerGeocodingFrom(new BigInteger("123"), results);
+		final PlayerGeocoding expected = playerUtils.getPlayerGeocodingFrom(new BigInteger("123"), results);
 		verify(playerGeocodingRepository).save(expected);
 	}
 }

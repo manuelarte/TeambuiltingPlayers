@@ -7,7 +7,7 @@ import com.google.maps.GeocodingApiRequest;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.repositories.PlayerGeocodingRepository;
 import org.manuel.teambuilting.players.services.geocoding.handlers.PlayerGeocodingResultHandler;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.players.util.PlayerUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -20,20 +20,20 @@ public class PlayerGeocodingService {
 
     private final GeoApiContext geoApiContext;
     private final PlayerGeocodingRepository playerGeocodingRepository;
-    private final Util util;
+    private final PlayerUtils playerUtils;
 
     public PlayerGeocodingService(final GeoApiContext geoApiContext,
-        final PlayerGeocodingRepository playerGeocodingRepository, final Util util) {
+        final PlayerGeocodingRepository playerGeocodingRepository, final PlayerUtils playerUtils) {
         this.geoApiContext = geoApiContext;
         this.playerGeocodingRepository = playerGeocodingRepository;
-        this.util = util;
+        this.playerUtils = playerUtils;
     }
 
     public void asyncReq(final Player player) {
         Assert.notNull(player);
         Assert.hasLength(player.getBornAddress());
         final GeocodingApiRequest req = GeocodingApi.newRequest(geoApiContext).address(player.getBornAddress());
-        req.setCallback(new PlayerGeocodingResultHandler(player.getId(), playerGeocodingRepository, util));
+        req.setCallback(new PlayerGeocodingResultHandler(player.getId(), playerGeocodingRepository, playerUtils));
 
     }
 }

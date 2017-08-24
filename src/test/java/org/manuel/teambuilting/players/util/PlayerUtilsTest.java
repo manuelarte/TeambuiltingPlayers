@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Manuel Doncel Martos
  * @since 06/04/2017.
  */
-public class UtilTest {
+public class PlayerUtilsTest {
 
-    private static Util util;
+    private static PlayerUtils playerUtils;
 
     @BeforeEach
     public void beforeClass() {
-        util = new Util();
+        playerUtils = new PlayerUtils();
     }
 
     @Test
@@ -38,7 +38,7 @@ public class UtilTest {
 
         final Date fromDateTwo = new Date();
         final Date toDateTwo = null;
-        final boolean actual = util.isOverlapping(createTimeslice(fromDateOne, toDateOne), createTimeslice(fromDateTwo, toDateTwo));
+        final boolean actual = playerUtils.isOverlapping(createTimeslice(fromDateOne, toDateOne), createTimeslice(fromDateTwo, toDateTwo));
         assertFalse(actual);
     }
 
@@ -56,7 +56,7 @@ public class UtilTest {
 
         final Date toDateTwo =  new Date();
         final Date fromDateTwo =  changeDate(toDateTwo, -5, Calendar.MONTH);
-        final boolean actual = util.isOverlapping(createTimeslice(fromDateOne, toDateOne), createTimeslice(fromDateTwo, toDateTwo));
+        final boolean actual = playerUtils.isOverlapping(createTimeslice(fromDateOne, toDateOne), createTimeslice(fromDateTwo, toDateTwo));
         assertFalse(actual);
     }
 
@@ -74,7 +74,7 @@ public class UtilTest {
 
         final Date fromDateTwo =  changeDate(fromDateOne, +2, Calendar.MONTH);
         final Date toDateTwo =  changeDate(toDateOne, +2, Calendar.MONTH);
-        final boolean actual = util.isOverlapping(createTimeslice(fromDateOne, toDateOne), createTimeslice(fromDateTwo, toDateTwo));
+        final boolean actual = playerUtils.isOverlapping(createTimeslice(fromDateOne, toDateOne), createTimeslice(fromDateTwo, toDateTwo));
         assertTrue(actual);
     }
 

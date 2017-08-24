@@ -9,7 +9,7 @@ import org.manuel.teambuilting.core.services.command.AbstractCommandService;
 import org.manuel.teambuilting.players.model.entities.PlayerToTeam;
 import org.manuel.teambuilting.players.repositories.PlayerToTeamRepository;
 import org.manuel.teambuilting.players.services.command.PlayerToTeamCommandService;
-import org.manuel.teambuilting.players.util.Util;
+import org.manuel.teambuilting.players.util.PlayerUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 class PlayerToTeamCommandServiceImpl extends AbstractCommandService<PlayerToTeam, BigInteger, PlayerToTeamRepository> implements
 	PlayerToTeamCommandService {
 
-	private final Util util;
+	private final PlayerUtils playerUtils;
 
-	public PlayerToTeamCommandServiceImpl(final PlayerToTeamRepository repository, Util util) {
+	public PlayerToTeamCommandServiceImpl(final PlayerToTeamRepository repository, final PlayerUtils playerUtils) {
 		super(repository);
-		this.util = util;
+		this.playerUtils = playerUtils;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ class PlayerToTeamCommandServiceImpl extends AbstractCommandService<PlayerToTeam
 
 	private Predicate<PlayerToTeam> overlapped(final PlayerToTeam beforeSaveEntity) {
 		return (entry) -> !entry.getId().equals(beforeSaveEntity.getId())
-				&& util.isOverlapping(beforeSaveEntity, entry);
+				&& playerUtils.isOverlapping(beforeSaveEntity, entry);
 	}
 
 }

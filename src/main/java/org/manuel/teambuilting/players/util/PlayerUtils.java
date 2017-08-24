@@ -19,11 +19,11 @@ import java.util.Map;
  */
 @Component
 @AllArgsConstructor
-public class Util {
+public class PlayerUtils {
 
 	public PlayerGeocoding getPlayerGeocodingFrom(final BigInteger playerId, final GeocodingResult[] results) {
 		Assert.notNull(results, "The results cannot be null");
-		Assert.isTrue(results.length > 0);
+		Assert.isTrue(results.length > 0, "The results cannot be null");
 		final Map<String, String> map = new HashMap<>(results[0].addressComponents.length);
 		for (final AddressComponent addressComponent : results[0].addressComponents) {
 			map.put(addressComponent.types[0].toCanonicalLiteral(), addressComponent.longName);
@@ -41,8 +41,7 @@ public class Util {
 	 * @return
 	 */
 	public <T extends TimeSlice> boolean isOverlapping(final T entryOne, final T entryTwo) {
-		Assert.notNull(entryOne);
-		Assert.notNull(entryTwo);
+		Assert.isTrue(entryOne != null && entryTwo != null, "None of the entries cannot be null");
 		boolean toReturn;
 		if (entryOne.getFromDate().equals(entryTwo.getFromDate())) {
 			toReturn = true;
