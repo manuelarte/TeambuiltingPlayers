@@ -49,10 +49,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class PlayerToTeamControllerTest {
 
-    private static final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
-
-    private static String token;
     private static TestUtils.TestUser user;
+
+    @Inject
+    private ObjectMapper mapper;
 
     @Inject
     private FilterChainProxy springSecurityFilterChain;
@@ -74,7 +74,6 @@ public class PlayerToTeamControllerTest {
     @BeforeClass
     public static void beforeClass() {
         user = TestUtils.manuel();
-        token = TestUtils.getTokenForUser(TestUtils.manuel());
     }
 
     @Before
@@ -88,11 +87,12 @@ public class PlayerToTeamControllerTest {
     public void findPlayerToTeamById() throws Exception {
         final Player player = Player.builder().name("name").build();
         playerRepository.save(player);
-        final PlayerToTeam expected = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
+        final PlayerToTeam expected = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId")
+                .fromDate(new Date()).build();
         playerToTeamRepository.save(expected);
 
-        final String contentAsString = mvc.perform(get("/playersToTeams/" + expected.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
-                .getContentAsString();
+        final String contentAsString = mvc.perform(get("/playersToTeams/" + expected.getId(), ""))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         final PlayerToTeam actual = mapper.readValue(contentAsString, PlayerToTeam.class);
 
         assertEquals(expected, actual);
@@ -102,10 +102,12 @@ public class PlayerToTeamControllerTest {
     public void findPlayerToTeamForPlayerId() throws Exception {
         final Player player = Player.builder().name("name").build();
         playerRepository.save(player);
-        final PlayerToTeam expected = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
+        final PlayerToTeam expected = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId")
+                .fromDate(new Date()).build();
         playerToTeamRepository.save(expected);
 
-        final String contentAsString = mvc.perform(get("/playersToTeams?playerId=" + player.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
+        final String contentAsString = mvc.perform(get("/playersToTeams?playerId="
+                + player.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
                 .getContentAsString();
         final List<PlayerToTeam> actual = mapper.readValue(contentAsString, new TypeReference<List<PlayerToTeam>>(){});
 
@@ -117,10 +119,12 @@ public class PlayerToTeamControllerTest {
     public void findPlayerToTeamForTeamId() throws Exception {
         final Player player = Player.builder().name("name").build();
         playerRepository.save(player);
-        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
+        final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId")
+                .fromDate(new Date()).build();
         playerToTeamRepository.save(playerToTeam);
 
-        final String contentAsString = mvc.perform(get("/playersToTeams/teams/teamId", "")).andExpect(status().isOk()).andReturn().getResponse()
+        final String contentAsString = mvc.perform(get("/playersToTeams/teams/teamId", ""))
+                .andExpect(status().isOk()).andReturn().getResponse()
                 .getContentAsString();
         final List<PlayerToTeam> actual = mapper.readValue(contentAsString, new TypeReference<List<PlayerToTeam>>(){});
 
@@ -132,7 +136,7 @@ public class PlayerToTeamControllerTest {
     public void testSavePlayerToTeamForAnUserNotHisPlayer() throws Exception {
         final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(BigInteger.TEN).teamId("teamId").fromDate(new Date()).build();
         mvc.perform(post("/playersToTeams", "")
-                .header("Authorization", MessageFormat.format("Bearer {0}", token))
+                .header("Authorization", MessageFormat.format("Bearer {0}", user.getToken()))
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(playerToTeam))).andExpect(status().is(403)).andReturn().getResponse()
                 .getContentAsString();
     }
@@ -143,7 +147,7 @@ public class PlayerToTeamControllerTest {
 
         final PlayerToTeam playerToTeam = PlayerToTeam.builder().playerId(player.getId()).teamId("teamId").fromDate(new Date()).build();
         mvc.perform(post("/playersToTeams", "")
-                .header("Authorization", MessageFormat.format("Bearer {0}", token))
+                .header("Authorization", MessageFormat.format("Bearer {0}", user.getToken()))
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(playerToTeam))).andExpect(status().is2xxSuccessful()).andReturn().getResponse()
                 .getContentAsString();
     }
@@ -158,7 +162,7 @@ public class PlayerToTeamControllerTest {
 
         final PlayerToTeam expected = playerToTeam.toBuilder().fromDate(new Date()).build();
         final String updatedJson = mvc.perform(post("/playersToTeams", "")
-                .header("Authorization", MessageFormat.format("Bearer {0}", token))
+                .header("Authorization", MessageFormat.format("Bearer {0}", user.getToken()))
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(expected))).andExpect(status().is2xxSuccessful()).andReturn().getResponse()
                 .getContentAsString();
         final PlayerToTeam actual = mapper.readValue(updatedJson, PlayerToTeam.class);
@@ -174,7 +178,7 @@ public class PlayerToTeamControllerTest {
     }
 
     @SneakyThrows
-    private static String asJsonString(final Object obj) {
+    private String asJsonString(final Object obj) {
         return mapper.writeValueAsString(obj);
     }
 

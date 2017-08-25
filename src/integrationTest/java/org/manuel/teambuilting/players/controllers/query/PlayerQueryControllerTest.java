@@ -53,8 +53,8 @@ public class PlayerQueryControllerTest {
 		final Player expected = Player.builder().name("name").build();
 		playerRepository.save(expected);
 
-		final String contentAsString = mvc.perform(get("/players/" + expected.getId(), "")).andExpect(status().isOk()).andReturn().getResponse()
-			.getContentAsString();
+		final String contentAsString = mvc.perform(get("/players/" + expected.getId()))
+				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		final Player actual = mapper.readValue(contentAsString, Player.class);
 		assertEquals(expected, actual);
 	}
