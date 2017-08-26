@@ -2,21 +2,22 @@ package org.manuel.teambuilting.players.services;
 
 import com.auth0.Auth0User;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.manuel.teambuilting.core.utils.Util;
 import org.manuel.teambuilting.players.model.entities.Player;
 import org.manuel.teambuilting.players.model.entities.UserData;
 import org.manuel.teambuilting.players.repositories.UserDataRepository;
 import org.manuel.teambuilting.players.services.command.PlayerCommandService;
-import org.manuel.teambuilting.core.utils.Util;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
  * @author Manuel on 11/12/2016.
  */
 @Service
+@Slf4j
 @AllArgsConstructor
 public class UserService {
 
@@ -34,10 +35,10 @@ public class UserService {
         return Optional.ofNullable(repository.findOne(userId));
     }
 
-    @Transactional
     private UserData createUserData(final String userId) {
         final Player player = createPlayer();
         final UserData userData = new UserData(userId, player.getId());
+        log.info("Creating user data for userId " + userId);
         return repository.save(userData);
     }
 

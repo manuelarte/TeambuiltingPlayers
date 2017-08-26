@@ -4,10 +4,10 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.PendingResult.Callback;
 import com.google.maps.model.GeocodingResult;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.Optional;
 
 /**
@@ -15,15 +15,11 @@ import java.util.Optional;
  * @since 14-3-2017
  */
 @Service
+@AllArgsConstructor
 @Slf4j
 public class GoogleMapsApiService {
 
 	private final GeoApiContext geoApiContext;
-
-	@Inject
-	public GoogleMapsApiService(final GeoApiContext geoApiContext) {
-		this.geoApiContext = geoApiContext;
-	}
 
 	public Optional<GeocodingResult[]> getSynchronously(final String address) {
 		return Optional.ofNullable(GeocodingApi.newRequest(geoApiContext).address(address).awaitIgnoreError());
